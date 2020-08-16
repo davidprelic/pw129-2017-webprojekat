@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Register</title>
+    <!--CSS FILES-->
+    <link rel="stylesheet" href="../Styles/bootstrap-css/bootstrap.min.css">
+    <link rel="stylesheet" href="../Styles/register.css">
+</head>
+<body>
+    <!--NAVBAR-->
+    <nav class="navbar navbar-expand-md">
+        <a class="navbar-brand" href="index.html">Logo</a>
+        <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-navigation">
+            <ul class="navbar-nav">
+                <li class="nav-item" id="kartice">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="logProfKartica" href="loginProfile.html">Prijavi se</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="regLogoutKartica" href="#">Registruj se</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!--CONTENT CONTAINER-->
+    <header class="page-header header container-fluid">
+
+        <h3>Registracija</h3> 
+        <!--REGISTER FORM-->
+        <form id="regForma">
+            <table border="1">
+                <tr>
+                    <td>Korisnicko ime:</td>
+                    <td>
+                        <input type="text" id="korIme" name="korisnickoime" />
+                        <input id="uloga" name="uloga" type="hidden" value="kupac">
+                        <input id="sveMojeKarteBezObziraNaStatus" name="sveMojeKarteBezObziraNaStatus" type="hidden" value="">
+                        <input id="brojSakupljenihBodova" name="brojSakupljenihBodova" type="hidden" value="0">
+                        <input id="isDeleted" name="isDeleted" type="hidden" value="False">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Lozinka:</td>
+                    <td><input type="password" id="lozinka" name="lozinka" /></td>
+                </tr>
+                <tr>
+                    <td>Ime:</td>
+                    <td><input type="text" id="ime" name="ime" /></td>
+                </tr>
+                <tr>
+                    <td>Prezime:</td>
+                    <td><input type="text" id="prezime" name="prezime" /></td>
+                </tr>
+                <tr>
+                    <td>Pol:</td>
+                    <td>
+                        <input type="radio" id="muski" name="pol" checked value="Muski">
+                        <label for="muski">Musko</label>
+                        <input type="radio" id="zenski" name="pol" value="Zenski">
+                        <label for="zenski">Zensko</label><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Datum rodjenja:</td>
+                    <td>
+                        <input type="date" id="datumRodj" name="datumrodjenja" value="" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="button" id="btnReg" value="Registruj se" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+    </header>
+
+
+
+    <!--JQUERY AND JS FILES-->
+    <script src="../Scripts/jquery-3.5.1.min.js"></script>
+    <script src="../Scripts/bootstrap-js/bootstrap.min.js"></script>
+    <script src="../Scripts/register.js"></script>
+</body>
+</html>

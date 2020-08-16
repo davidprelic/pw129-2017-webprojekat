@@ -80,18 +80,64 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\korisnici.txt" />
     <Content Include="Global.asax" />
+    <Content Include="Htmls\index.html" />
+    <Content Include="Htmls\loginProfile.html" />
+    <Content Include="Htmls\register.html" />
+    <Content Include="Images\landing-page.jpg" />
+    <Content Include="Scripts\bootstrap-js\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap-js\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap-js\bootstrap.js" />
+    <Content Include="Scripts\bootstrap-js\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-3.5.1.min.js" />
+    <Content Include="Scripts\loginProfile.js" />
+    <Content Include="Scripts\main.js" />
+    <Content Include="Scripts\register.js" />
+    <Content Include="Styles\bootstrap-css\bootstrap-grid.css" />
+    <Content Include="Styles\bootstrap-css\bootstrap-grid.min.css" />
+    <Content Include="Styles\bootstrap-css\bootstrap-reboot.css" />
+    <Content Include="Styles\bootstrap-css\bootstrap-reboot.min.css" />
+    <Content Include="Styles\bootstrap-css\bootstrap.css" />
+    <Content Include="Styles\bootstrap-css\bootstrap.min.css" />
+    <Content Include="Styles\loginProfile.css" />
+    <Content Include="Styles\main.css" />
+    <Content Include="Styles\register.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BazaPodataka.cs" />
+    <Compile Include="Models\DTOs\LoginDTO.cs" />
+    <Compile Include="Models\Enums.cs" />
+    <Compile Include="Models\Karta.cs" />
+    <Compile Include="Models\Komentar.cs" />
+    <Compile Include="Models\Korisnik.cs" />
+    <Compile Include="Models\Kupac.cs" />
+    <Compile Include="Models\Lokacija.cs" />
+    <Compile Include="Models\Manifestacija.cs" />
+    <Compile Include="Models\MestoOdrzavanja.cs" />
+    <Compile Include="Models\Prodavac.cs" />
+    <Compile Include="Models\TipKorisnika.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="Scripts\bootstrap-js\bootstrap.bundle.js.map" />
+    <Content Include="Scripts\bootstrap-js\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap-js\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap-js\bootstrap.min.js.map" />
+    <Content Include="Styles\bootstrap-css\bootstrap-grid.css.map" />
+    <Content Include="Styles\bootstrap-css\bootstrap-grid.min.css.map" />
+    <Content Include="Styles\bootstrap-css\bootstrap-reboot.css.map" />
+    <Content Include="Styles\bootstrap-css\bootstrap-reboot.min.css.map" />
+    <Content Include="Styles\bootstrap-css\bootstrap.css.map" />
+    <Content Include="Styles\bootstrap-css\bootstrap.min.css.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -99,11 +145,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

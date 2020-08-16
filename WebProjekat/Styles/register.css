@@ -1,0 +1,47 @@
+﻿body {
+    padding: 0;
+    margin: 0;
+    background: #f2f6e9;
+}
+/*NAVBAR*/
+.navbar {
+    background: #6ab446;
+}
+
+.nav-link,
+.navbar-brand {
+    color: #fff;
+    cursor: pointer;
+}
+
+.nav-link {
+    margin-right: 1em !important;
+}
+
+    .nav-link:hover {
+        color: #000;
+    }
+
+.navbar-collapse {
+    justify-content: flex-end;
+}
+
+/*CONTENT CONTAINER*/
+.header {
+    background-image: url('../Images/landing-page.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+h3 {
+    padding-top: 20px;
+    color: white;
+    margin-left: 440px;
+}
+table {
+    border-color: white;
+    border-width: thick;
+    margin-left: 360px;
+}
+
