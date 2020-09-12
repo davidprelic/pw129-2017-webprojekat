@@ -82,7 +82,5 @@ namespace WebProjekat.Models
             return KorisnickoIme;
         }
 
-
-
     }
 }

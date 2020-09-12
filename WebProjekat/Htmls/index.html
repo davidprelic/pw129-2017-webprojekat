@@ -35,6 +35,49 @@
     <!--CONTENT CONTAINER-->
     <header class="page-header header container-fluid">
 
+        <div class="searchSort">
+            <form action="/Home/PretragaSort">
+
+                naziv:<input type="text" name="naziv" size="10" />
+
+                mesto:<input type="text" name="mesto" size="10" />
+
+                datum od:<input type="date" name="datumOd">
+                do:<input type="date" name="datumDo">
+
+                lokacija:<input type="text" name="lokacija" size="10" />
+
+                cena od:<input type="number" min="0" step="0.01" name="cenaOd" size="5">
+                do:<input type="number" min="0.1" step="0.01" name="cenaDo" size="5">
+
+                Sortiraj po:
+                   <select name="opcijaSort">
+                       <option>--izaberite opciju--</option>
+                       <option value="poNazivuAZ">nazivu(A-Z)</option>
+                       <option value="poNazivuZA">nazivu(Z-A)</option>
+                       <option value="poDatumuRastuce">datumu(rastuce)</option>
+                       <option value="poDatumuOpadajuce">datumu(opadajuce)</option>
+                       <option value="poCeniRastuce">ceni(rastuce)</option>
+                       <option value="poCeniOpadajuce">ceni(opadajuce)</option>
+                       <option value="poMestuAZ">mestu(A-Z)</option>
+                       <option value="poMestuZA">mestu(Z-A)</option>
+                   </select>
+
+                <br>
+                
+                Filtriraj po:
+                <select name="opcijaFilter">
+                    <option>--izaberite opciju--</option>
+                    <option value="poTipu">tipu</option>
+                    <option value="nerasprodate">nerasprodatim</option>
+                </select>
+
+                <input type="submit" value="Primeni filtere" />
+
+            </form>
+        </div>
+
+        <div class="card-deck"></div>
     </header>
 
 

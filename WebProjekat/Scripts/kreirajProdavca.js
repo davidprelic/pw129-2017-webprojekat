@@ -6,15 +6,23 @@
         url: '/sesija',
         method: 'GET',
         success: function (data) {
-            if (data !== 'NEULOGOVAN') {
+            if (data !== 'ADMINISTRATOR') {
                 window.location.href = "index.html";
+            }
+            else {
+                var kartice = '<li class="nav-item"><a class="nav-link" href="korisnici.html"> Pregled korisnika</a></li>';
+                $('#kartice').after(kartice);
+                var kartice = '<li class="nav-item"><a class="nav-link" href="kreirajProdavca.html"> Kreiraj prodavca</a></li>';
+                $('#kartice').after(kartice);
+                $('#logProfKartica').text('Profil');
+                $('#regLogoutKartica').text('Odjavi se');
             }
         }
     });
 
     $("#btnReg").click(function () {
         $.ajax({
-            url: '/account/register',
+            url: '/admin/kreirajprodavca',
             method: 'POST',
             data: {
                 KorisnickoIme: $('#korIme').val(),
@@ -24,8 +32,7 @@
                 Pol: $('input[name="pol"]:checked').val(),
                 DatumRodjenja: $('#datumRodj').val(),
                 Uloga: $('#uloga').val(),
-                SveMojeKarteBezObziraNaStatus: $('#sveMojeKarteBezObziraNaStatus').val(),
-                BrojSakupljenihBodova: $('brojSakupljenihBodova').val(),
+                SveMojeManifestacije: $('#sveMojeManifestacije').val(),
                 IsDeleted: $('isDeleted').val()
             },
             success: function () {
@@ -35,6 +42,19 @@
             error: function (jqXHR) {
                 alert("ERROR");
             }
+
         });
+    });
+
+    $('#regLogoutKartica').click(function () {
+        if ($('#regLogoutKartica').text() === 'Odjavi se') {
+            $.ajax({
+                url: '/account/logout',
+                method: 'GET',
+                success: function () {
+                    window.location.href = "index.html";
+                }
+            });
+        }
     });
 });

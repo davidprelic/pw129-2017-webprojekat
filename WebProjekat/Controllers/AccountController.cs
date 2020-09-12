@@ -10,13 +10,13 @@ using WebProjekat.Models.DTOs;
 
 namespace WebProjekat.Controllers
 {
-    [RoutePrefix("Account")]
+    [RoutePrefix("account")]
     public class AccountController : ApiController
     {
         BazaPodataka bp = new BazaPodataka();
 
         [HttpPost]
-        [Route("Register")]
+        [Route("register")]
         public IHttpActionResult Register(Kupac k)
         {
             if (!ModelState.IsValid)
@@ -37,7 +37,7 @@ namespace WebProjekat.Controllers
         }
 
         [HttpPost]
-        [Route("Login")]
+        [Route("login")]
         public IHttpActionResult Login(LoginDTO logDto)
         {
             Korisnik korisnikSesija = (Korisnik)HttpContext.Current.Session["Korisnik"];
@@ -52,7 +52,7 @@ namespace WebProjekat.Controllers
             {
                 if (bp.listaKorisnika[logDto.KorisnickoIme].Lozinka != logDto.Lozinka)
                 {
-                    //        // Vrati poruku greske da lozinka nije ispravna
+                    // Vrati poruku greske da lozinka nije ispravna
                     return BadRequest();
                 }
 
@@ -60,7 +60,7 @@ namespace WebProjekat.Controllers
                 korisnikSesija = bp.listaKorisnika[logDto.KorisnickoIme];
                 HttpContext.Current.Session["Korisnik"] = korisnikSesija;
 
-                //    // Redirektuj korisnika na home page zbog uspesne prijave 
+                // Redirektuj korisnika na home page zbog uspesne prijave 
                 return Ok();
             }
 
@@ -68,9 +68,8 @@ namespace WebProjekat.Controllers
             return BadRequest();
         }
 
-
         [HttpGet]
-        [Route("Logout")]
+        [Route("logout")]
         public IHttpActionResult Logout()
         {
             Korisnik korisnikSesija = (Korisnik)HttpContext.Current.Session["Korisnik"];
@@ -82,6 +81,40 @@ namespace WebProjekat.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        [Route("korisnik")]
+        public IHttpActionResult PrikaziProfil()
+        {
+            Korisnik korisnikSesija = (Korisnik)HttpContext.Current.Session["Korisnik"];
+            if (korisnikSesija == null)
+            {
+                korisnikSesija = new Korisnik();
+                HttpContext.Current.Session["Korisnik"] = korisnikSesija;
+            }
 
+            return Ok(korisnikSesija);
+        }
+
+        [HttpPut]
+        [Route("korisnik")]
+        public IHttpActionResult IzmeniProfil(LoginDTO ldt)
+        {
+            Korisnik korisnikSesija = (Korisnik)HttpContext.Current.Session["Korisnik"];
+            if (korisnikSesija == null)
+            {
+                korisnikSesija = new Korisnik();
+                HttpContext.Current.Session["Korisnik"] = korisnikSesija;
+            }
+
+            bp.listaKorisnika = (Dictionary<string, Korisnik>)HttpContext.Current.Application["Korisnici"];
+            if (bp.listaKorisnika.ContainsKey(ldt.KorisnickoIme))
+            {
+                bp.listaKorisnika[ldt.KorisnickoIme].Lozinka = ldt.Lozinka;
+                bp.AzurirajKorisnike();
+                return Ok();
+            }
+
+            return BadRequest();
+        }
     }
 }

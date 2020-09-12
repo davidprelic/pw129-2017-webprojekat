@@ -1,4 +1,6 @@
-﻿admin1;admin123;David;Prelic;MUSKI;14/8/1998;ADMINISTRATOR;False
-prodavac1;prodavac123;Jovana;Jovanic;ZENSKI;22/9/1997;PRODAVAC;|asd,1kl,444|;False
-kupac1;kupac123;Marko;Markovic;MUSKI;7/12/2000;KUPAC;|karta1,karta2,karta3|;900;BRONZANI;False
-asdasdasd;asddasdasd;dasdasd;dasdasdas;ZENSKI;30/08/2020;KUPAC;||;0;BRONZANI;False
+admin1;admin123;David;Prelic;MUSKI;14/08/1998;ADMINISTRATOR;False
+prodavac1;prodavac123;Jovana;Jovanic;ZENSKI;22/09/1997;PRODAVAC;|||asd,1kl,444|||;False
+kupac1;kupac123;Marko;Markovic;MUSKI;07/12/2000;KUPAC;|;900;BRONZANI;False
+asdasdasd;asddasdasd;dasdasd;dasdasdas;ZENSKI;30/08/2020;KUPAC;|;0;BRONZANI;False
+peca;lozinka123;Petar;Petrovic;MUSKI;07/08/2020;KUPAC;|;0;BRONZANI;False
+prodavac12345;prodavac123;Ana;Anic;ZENSKI;12/08/2020;PRODAVAC;||||||;False

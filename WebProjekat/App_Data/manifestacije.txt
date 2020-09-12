@@ -1,0 +1,7 @@
+﻿asdf;Lovefest;FESTIVAL;5000;15/09/2020;4500;AKTIVNO;qwe;/Images/lovefest.jpg;False
+kjks;Exit;FESTIVAL;9400;23/11/2020;6300;AKTIVNO;rsq;/Images/exitfest.jpg;False
+lfgd;SASA MATIC;KONCERT;9000;03/02/2020;6000;AKTIVNO;rrr;/Images/sasamatic.jpg;False
+gdfs;Barcelona - Real Madrid;SPORT;90000;29/11/2020;12000;AKTIVNO;fff;/Images/barcareal.jpeg;False
+trfs;TEATAR NA BRDU;POZORISTE;5000;11/04/2020;4500;AKTIVNO;sss;/Images/pozoriste.jpg;False
+wwfs;FK CRVENA ZVEZDA - SEZONKSE KARTE;SPORT;5000;15/09/2020;4500;AKTIVNO;ttt;/Images/sezonskakartaczv.jpg;False
+ppps;FK PARTIZAN - SEZONKSE KARTE;SPORT;5000;15/09/2020;4500;AKTIVNO;uuu;/Images/sezonskakartapfc.jpg;False

@@ -23,6 +23,9 @@ namespace WebProjekat
             bPodataka.UcitajKorisnike("~/App_Data/korisnici.txt");
             HttpContext.Current.Application["Korisnici"] = bPodataka.listaKorisnika;
 
+            bPodataka.UcitajManifestacije("~/App_Data/manifestacije.txt");
+            HttpContext.Current.Application["Manifestacije"] = bPodataka.listaManifestacija;
+
         }
 
         // Ukljucivanje podrske za Session

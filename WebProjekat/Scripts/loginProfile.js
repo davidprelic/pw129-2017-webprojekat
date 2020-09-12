@@ -8,26 +8,30 @@
         success: function (data) {
             if (data === 'ADMINISTRATOR') {
                 $('#loginDiv').remove();
-                var kartice = '<li class="nav-item"><a class="nav-link" href = "register.html"> Pregled korisnika</a></li>';
+                var kartice = '<li class="nav-item"><a class="nav-link" href="korisnici.html"> Pregled korisnika</a></li>';
+                $('#kartice').after(kartice);
+                var kartice = '<li class="nav-item"><a class="nav-link" href="kreirajProdavca.html"> Kreiraj prodavca</a></li>';
                 $('#kartice').after(kartice);
                 $('#logProfKartica').text('Profil');
                 $('#regLogoutKartica').text('Odjavi se');
+                PrikaziProfil();
             }
             else if (data === 'KUPAC') {
                 $('#loginDiv').remove();
-                var kartice = '<li class="nav-item"><a class="nav-link" href = "register.html"> Moje karte</a></li>';
+                var kartice = '<li class="nav-item"><a class="nav-link" href="register.html"> Moje karte</a></li>';
                 $('#kartice').after(kartice);
                 $('#logProfKartica').text('Profil');
                 $('#regLogoutKartica').text('Odjavi se');
+                PrikaziProfil();
             }
             else if (data === 'PRODAVAC') {
                 $('#loginDiv').remove();
-                var kartice = '<li class="nav-item"><a class="nav-link" href = "register.html"> Moje manifestacije</a></li>';
+                var kartice = '<li class="nav-item"><a class="nav-link" href="register.html"> Moje manifestacije</a></li>';
                 $('#kartice').after(kartice);
                 $('#logProfKartica').text('Profil');
                 $('#regLogoutKartica').text('Odjavi se');
+                PrikaziProfil();
             }
-
         }
     });
 
@@ -56,6 +60,55 @@
             },
             error: function (jqXHR) {
                 console.log(jqXHR);
+            }
+        });
+    });
+    
+    function PrikaziProfil() {
+        $.ajax({
+            url: '/account/korisnik',
+            method: 'GET',
+            success: function (data) {
+                console.log(data.KorisnickoIme);
+                var datum = new Date(data.DatumRodjenja);
+                var mesec = datum.getMonth() + 1;
+                var eachrow = '<form id="profilForma">'
+                            + '<table border="1">'
+                            + "<tr>"
+                            + "<td>" + "Korisnicko ime:" + "</td>"
+                            + "<td>" + `<input type="text" id="korIme" name="korisnickoime" value="${data.KorisnickoIme}" />` + "</td>"
+                            + "</tr>"
+                            + "<tr>"
+                            + "<td>" + "Lozinka:" + "</td>"
+                            + "<td>" + `<input type="text" id="lozinka" name="lozinka" value="${data.Lozinka}" />` + "</td>"
+                            + "</tr>"
+                            + "<tr>"
+                            + "<td>" + "Datum rodjenja:" + "</td>"
+                            + "<td>" + datum.getDate() + '/' + mesec + '/' + datum.getFullYear() + "</td>"
+                            + "</tr>"
+                            + "<tr>"
+                            + '<td colspan="2">' + '<input type="button" id="btnProfil" value="Sacuvaj izmene" />' + "</td>"
+                            + "</tr>"
+                            + "</table>"
+                            + "</form>";
+                $('#profilKorisnika').append(eachrow);
+            }
+        });
+    }
+
+    $(document).on('click', '#btnProfil', function () {
+        $.ajax({
+            url: '/account/korisnik',
+            method: 'PUT',
+            data: {
+                KorisnickoIme: $('#korIme').val(),
+                Lozinka: $('#lozinka').val()
+            },
+            success: function () {
+                console.log("USPESNA POSLATI PODACI AJAXOM");
+            },
+            error: function (jqXHR) {
+                alert("ERROR");
             }
         });
     });

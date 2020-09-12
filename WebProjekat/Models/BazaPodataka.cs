@@ -10,6 +10,7 @@ namespace WebProjekat.Models
     public class BazaPodataka
     {
         public Dictionary<string, Korisnik> listaKorisnika { get; set; }
+        public Dictionary<string, Manifestacija> listaManifestacija { get; set; }
 
 
         public BazaPodataka() { }
@@ -41,6 +42,28 @@ namespace WebProjekat.Models
             stream.Close();
         }
 
+        public void UcitajManifestacije(string path)
+        {
+            path = HostingEnvironment.MapPath(path);
+            listaManifestacija = new Dictionary<string, Manifestacija>();
+            FileStream stream = new FileStream(path, FileMode.Open);
+            StreamReader sr = new StreamReader(stream);
+            string line = "";
+            Manifestacija m = null;
+
+            while ((line = sr.ReadLine()) != null)
+            {
+                // PRAVILNO ISPARSIRATI SVA POLJA IZ TEKSTUALNE DATOTEKE
+
+                string[] tokens = line.Split(';');
+                m = new Manifestacija(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], tokens[7], tokens[8], tokens[9]);
+                
+                listaManifestacija.Add(m.Id, m);
+            }
+            sr.Close();
+            stream.Close();
+        }
+
         public void AzurirajKorisnike()
         {
             string path = HostingEnvironment.MapPath("~/App_Data/korisnici.txt");
@@ -49,6 +72,20 @@ namespace WebProjekat.Models
             foreach (var key in listaKorisnika.Keys)
             {
                 sw.WriteLine(listaKorisnika[key].ToString());
+            }
+
+            sw.Close();
+            stream.Close();
+        }
+
+        public void AzurirajManifestacije()
+        {
+            string path = HostingEnvironment.MapPath("~/App_Data/manifestacije.txt");
+            FileStream stream = new FileStream(path, FileMode.Create);
+            StreamWriter sw = new StreamWriter(stream);
+            foreach (var key in listaManifestacija.Keys)
+            {
+                sw.WriteLine(listaManifestacija[key].ToString());
             }
 
             sw.Close();
