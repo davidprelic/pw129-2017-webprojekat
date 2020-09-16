@@ -14,6 +14,8 @@
                 $('#kartice').after(kartice);
                 var kartice = '<li class="nav-item"><a class="nav-link" href="kreirajProdavca.html"> Kreiraj prodavca</a></li>';
                 $('#kartice').after(kartice);
+                var kartice = '<li class="nav-item"><a class="nav-link" href="potvrdaManifestacija.html"> Potvrda manifestacija</a></li>';
+                $('#kartice').after(kartice);
                 $('#logProfKartica').text('Profil');
                 $('#regLogoutKartica').text('Odjavi se');
             }
@@ -22,7 +24,7 @@
 
     $("#btnReg").click(function () {
         $.ajax({
-            url: '/admin/kreirajprodavca',
+            url: '/kreirajprodavca',
             method: 'POST',
             data: {
                 KorisnickoIme: $('#korIme').val(),

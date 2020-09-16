@@ -11,13 +11,14 @@ namespace WebProjekat.Models
     public class Kupac : Korisnik
     {
         public List<string> SveMojeKarteBezObziraNaStatus { get; set; }
-        public int BrojSakupljenihBodova { get; set; }
+        public double BrojSakupljenihBodova { get; set; }
         public TipKorisnika TipKorisn { get; set; }
 
         public Kupac() { }
 
-        public Kupac(string korisnickoIme, string lozinka, string ime, string prezime, string pol, string datumRodjenja, string uloga, string sveMojeKarteBezObziraNaStatus, string brojSakupljenihBodova, string tipKorisnika, string isDeleted)
+        public Kupac(string id, string korisnickoIme, string lozinka, string ime, string prezime, string pol, string datumRodjenja, string uloga, string sveMojeKarteBezObziraNaStatus, string brojSakupljenihBodova, string tipKorisnika, string isDeleted)
         {
+            Id = id;
             KorisnickoIme = korisnickoIme;
             Lozinka = lozinka;
             Ime = ime;
@@ -32,10 +33,19 @@ namespace WebProjekat.Models
             Uloga = u;
 
             //PROVERITI DA LI MOZE OVAKO
-            //SveMojeKarteBezObziraNaStatus = sveMojeKarteBezObziraNaStatus.Split(',').ToList();
-            SveMojeKarteBezObziraNaStatus = new List<string>();
+            if (sveMojeKarteBezObziraNaStatus == "")
+            {
+                List<string> init = new List<string>();
+                init.Add("");
+                SveMojeKarteBezObziraNaStatus = init;
+            }
+            else
+            {
+                List<string> sveMojeKarteBezObziraNaStatusLista = sveMojeKarteBezObziraNaStatus.Split('|')[1].Split(',').ToList();
+                SveMojeKarteBezObziraNaStatus = sveMojeKarteBezObziraNaStatusLista;
+            }    
 
-            BrojSakupljenihBodova = Int32.Parse(brojSakupljenihBodova);
+            BrojSakupljenihBodova = double.Parse(brojSakupljenihBodova);
 
             //PROVERITI DA LI MOZE OVAKO, i DA LI MI TREBA TIP KORISN KAO PARAMETAR KONSTRUKTORA
             TipKorisn = new TipKorisnika();
@@ -50,13 +60,13 @@ namespace WebProjekat.Models
             var date = dt.Date;
             string datumString = dt.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
 
-            string ret = $"{KorisnickoIme};{Lozinka};{Ime};{Prezime};{Pol.ToString()};{datumString};{Uloga.ToString()};|";
+            string ret = $"{Id};{KorisnickoIme};{Lozinka};{Ime};{Prezime};{Pol.ToString()};{datumString};{Uloga.ToString()};|";
             foreach (string item in SveMojeKarteBezObziraNaStatus)
             {
                 ret += $"{item},";
             }
             ret = ret.Remove(ret.Length - 1);
-            ret += $"|;{BrojSakupljenihBodova};{TipKorisn.ImeTipa.ToString()};{IsDeleted}";
+            ret += $"|;{BrojSakupljenihBodova.ToString()};{TipKorisn.ImeTipa.ToString()};{IsDeleted}";
 
             return ret;
         }

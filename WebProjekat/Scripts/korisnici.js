@@ -14,6 +14,8 @@
                 $('#kartice').after(kartice);
                 var kartice = '<li class="nav-item"><a class="nav-link" href="kreirajProdavca.html"> Kreiraj prodavca</a></li>';
                 $('#kartice').after(kartice);
+                var kartice = '<li class="nav-item"><a class="nav-link" href="potvrdaManifestacija.html"> Potvrda manifestacija</a></li>';
+                $('#kartice').after(kartice);
                 $('#logProfKartica').text('Profil');
                 $('#regLogoutKartica').text('Odjavi se');
             }
@@ -33,7 +35,7 @@
     });
 
     $.ajax({
-        url: '/admin/korisnici',
+        url: '/korisnici',
         method: 'GET',
         success: function (data) {
             var korisnici = JSON.parse(data);

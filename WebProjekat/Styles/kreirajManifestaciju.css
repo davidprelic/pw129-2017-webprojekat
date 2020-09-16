@@ -40,5 +40,13 @@ h3 {
     margin-left: 440px;
 }
 
+table {
+    border-color: white;
+    border-width: thick;
+    margin-left: 360px;
+}
 
-
+.map {
+    height: 400px;
+    width: 100%;
+}

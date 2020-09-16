@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -16,27 +17,6 @@ namespace WebProjekat.Controllers
         BazaPodataka bp = new BazaPodataka();
 
         [HttpPost]
-        [Route("register")]
-        public IHttpActionResult Register(Kupac k)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            //BazaPodataka bp = new BazaPodataka();
-            bp.listaKorisnika = (Dictionary<string, Korisnik>)HttpContext.Current.Application["Korisnici"];
-
-            TipKorisnika tk = new TipKorisnika();
-            k.TipKorisn = tk;
-
-            bp.listaKorisnika.Add(k.KorisnickoIme, k);
-            k.SacuvajKorisnika();
-
-            return Ok();
-        }
-
-        [HttpPost]
         [Route("login")]
         public IHttpActionResult Login(LoginDTO logDto)
         {
@@ -48,16 +28,22 @@ namespace WebProjekat.Controllers
             }
 
             bp.listaKorisnika = (Dictionary<string, Korisnik>)HttpContext.Current.Application["Korisnici"];
-            if (bp.listaKorisnika.ContainsKey(logDto.KorisnickoIme))
+
+            Korisnik k = null;
+
+            List<Korisnik> korisnici = bp.listaKorisnika.Values.ToList();
+
+
+            k = korisnici.FirstOrDefault(cus => cus.KorisnickoIme == logDto.KorisnickoIme);
+            if (k != null)
             {
-                if (bp.listaKorisnika[logDto.KorisnickoIme].Lozinka != logDto.Lozinka)
+                if(k.Lozinka != logDto.Lozinka)
                 {
                     // Vrati poruku greske da lozinka nije ispravna
                     return BadRequest();
                 }
 
-
-                korisnikSesija = bp.listaKorisnika[logDto.KorisnickoIme];
+                korisnikSesija = bp.listaKorisnika[k.Id];
                 HttpContext.Current.Session["Korisnik"] = korisnikSesija;
 
                 // Redirektuj korisnika na home page zbog uspesne prijave 
@@ -80,41 +66,6 @@ namespace WebProjekat.Controllers
 
             return Ok();
         }
-
-        [HttpGet]
-        [Route("korisnik")]
-        public IHttpActionResult PrikaziProfil()
-        {
-            Korisnik korisnikSesija = (Korisnik)HttpContext.Current.Session["Korisnik"];
-            if (korisnikSesija == null)
-            {
-                korisnikSesija = new Korisnik();
-                HttpContext.Current.Session["Korisnik"] = korisnikSesija;
-            }
-
-            return Ok(korisnikSesija);
-        }
-
-        [HttpPut]
-        [Route("korisnik")]
-        public IHttpActionResult IzmeniProfil(LoginDTO ldt)
-        {
-            Korisnik korisnikSesija = (Korisnik)HttpContext.Current.Session["Korisnik"];
-            if (korisnikSesija == null)
-            {
-                korisnikSesija = new Korisnik();
-                HttpContext.Current.Session["Korisnik"] = korisnikSesija;
-            }
-
-            bp.listaKorisnika = (Dictionary<string, Korisnik>)HttpContext.Current.Application["Korisnici"];
-            if (bp.listaKorisnika.ContainsKey(ldt.KorisnickoIme))
-            {
-                bp.listaKorisnika[ldt.KorisnickoIme].Lozinka = ldt.Lozinka;
-                bp.AzurirajKorisnike();
-                return Ok();
-            }
-
-            return BadRequest();
-        }
+        
     }
 }

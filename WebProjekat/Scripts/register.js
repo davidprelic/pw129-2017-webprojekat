@@ -14,7 +14,7 @@
 
     $("#btnReg").click(function () {
         $.ajax({
-            url: '/account/register',
+            url: '/korisnik',
             method: 'POST',
             data: {
                 KorisnickoIme: $('#korIme').val(),
@@ -24,7 +24,6 @@
                 Pol: $('input[name="pol"]:checked').val(),
                 DatumRodjenja: $('#datumRodj').val(),
                 Uloga: $('#uloga').val(),
-                SveMojeKarteBezObziraNaStatus: $('#sveMojeKarteBezObziraNaStatus').val(),
                 BrojSakupljenihBodova: $('brojSakupljenihBodova').val(),
                 IsDeleted: $('isDeleted').val()
             },

@@ -26,6 +26,11 @@ namespace WebProjekat
             bPodataka.UcitajManifestacije("~/App_Data/manifestacije.txt");
             HttpContext.Current.Application["Manifestacije"] = bPodataka.listaManifestacija;
 
+            bPodataka.UcitajKarte("~/App_Data/karte.txt");
+            HttpContext.Current.Application["Karte"] = bPodataka.listaKarata;
+
+            bPodataka.UcitajKomentare("~/App_Data/komentari.txt");
+            HttpContext.Current.Application["Komentari"] = bPodataka.listaKomentara;
         }
 
         // Ukljucivanje podrske za Session

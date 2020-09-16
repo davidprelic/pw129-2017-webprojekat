@@ -80,14 +80,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\karte.txt" />
+    <Content Include="App_Data\komentari.txt" />
     <Content Include="App_Data\korisnici.txt" />
     <Content Include="App_Data\manifestacije.txt" />
     <Content Include="Global.asax" />
     <Content Include="Htmls\index.html" />
     <Content Include="Htmls\korisnici.html" />
+    <Content Include="Htmls\kreirajManifestaciju.html" />
     <Content Include="Htmls\kreirajProdavca.html" />
     <Content Include="Htmls\loginProfile.html" />
+    <Content Include="Htmls\potvrdaManifestacija.html" />
     <Content Include="Htmls\pregledManifestacije.html" />
+    <Content Include="Htmls\prodavacManifestacije.html" />
     <Content Include="Htmls\register.html" />
     <Content Include="Images\landing-page.jpg" />
     <Content Include="Images\lovefest.jpg" />
@@ -97,10 +102,13 @@
     <Content Include="Scripts\bootstrap-js\bootstrap.min.js" />
     <Content Include="Scripts\jquery-3.5.1.min.js" />
     <Content Include="Scripts\korisnici.js" />
+    <Content Include="Scripts\kreirajManifestaciju.js" />
     <Content Include="Scripts\kreirajProdavca.js" />
     <Content Include="Scripts\loginProfile.js" />
     <Content Include="Scripts\main.js" />
+    <Content Include="Scripts\potvrdaManifestacija.js" />
     <Content Include="Scripts\pregledManifestacije.js" />
+    <Content Include="Scripts\prodavacManifestacije.js" />
     <Content Include="Scripts\register.js" />
     <Content Include="Styles\bootstrap-css\bootstrap-grid.css" />
     <Content Include="Styles\bootstrap-css\bootstrap-grid.min.css" />
@@ -109,23 +117,33 @@
     <Content Include="Styles\bootstrap-css\bootstrap.css" />
     <Content Include="Styles\bootstrap-css\bootstrap.min.css" />
     <Content Include="Styles\korisnici.css" />
+    <Content Include="Styles\kreirajManifestaciju.css" />
     <Content Include="Styles\kreirajProdavca.css" />
     <Content Include="Styles\loginProfile.css" />
     <Content Include="Styles\main.css" />
+    <Content Include="Styles\potvrdaManifestacija.css" />
     <Content Include="Styles\pregledManifestacije.css" />
+    <Content Include="Styles\prodavacManifestacije.css" />
     <Content Include="Styles\register.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KartaController.cs" />
+    <Compile Include="Controllers\KorisnikController.cs" />
+    <Compile Include="Controllers\ManifestacijaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BazaPodataka.cs" />
+    <Compile Include="Models\DTOs\GenerisanjeKarataDTO.cs" />
+    <Compile Include="Models\DTOs\KorisnikProfilDTO.cs" />
+    <Compile Include="Models\DTOs\KupacIdPopustDTO.cs" />
+    <Compile Include="Models\DTOs\KupacRegisterDTO.cs" />
     <Compile Include="Models\DTOs\LoginDTO.cs" />
+    <Compile Include="Models\DTOs\ManifestacijaDTO.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\Karta.cs" />
     <Compile Include="Models\Komentar.cs" />

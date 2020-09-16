@@ -11,6 +11,7 @@ namespace WebProjekat.Models
 {
     public class Korisnik
     {
+        public string Id { get; set; }
         [Required]
         [StringLength(60, MinimumLength = 3)]
         public string KorisnickoIme { get; set; }
@@ -32,6 +33,7 @@ namespace WebProjekat.Models
 
         public Korisnik()
         {
+            Id = "";
             KorisnickoIme = "";
             Lozinka = "";
             Ime = "";
@@ -42,8 +44,9 @@ namespace WebProjekat.Models
             IsDeleted = false;
         }
 
-        public Korisnik(string korisnickoIme, string lozinka, string ime, string prezime, string pol, string datumRodjenja, string uloga, string isDeleted)
+        public Korisnik(string id, string korisnickoIme, string lozinka, string ime, string prezime, string pol, string datumRodjenja, string uloga, string isDeleted)
         {
+            Id = id;
             KorisnickoIme = korisnickoIme;
             Lozinka = lozinka;
             Ime = ime;
@@ -65,7 +68,7 @@ namespace WebProjekat.Models
             var date = dt.Date;
             string datumString = dt.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
 
-            return $"{KorisnickoIme};{Lozinka};{Ime};{Prezime};{Pol.ToString()};{datumString};{Uloga.ToString()};{IsDeleted.ToString()}";
+            return $"{Id};{KorisnickoIme};{Lozinka};{Ime};{Prezime};{Pol.ToString()};{datumString};{Uloga.ToString()};{IsDeleted.ToString()}";
         }
 
         public string SacuvajKorisnika()

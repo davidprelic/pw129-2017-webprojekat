@@ -9,13 +9,15 @@ namespace WebProjekat.Models
     {
         public Enums.TipKorisnika ImeTipa { get; set; }
         public int Popust { get; set; }
-        public int PotrebanBrojBodova { get; set; }
+        public int PotrebanBrojBodovaSrebro { get; set; }
+        public int PotrebanBrojBodovaZlato { get; set; }
 
         public TipKorisnika()
         {
             ImeTipa = Enums.TipKorisnika.BRONZANI;
-            Popust = 10;
-            PotrebanBrojBodova = 2500;
+            Popust = 5;
+            PotrebanBrojBodovaSrebro = 10000;
+            PotrebanBrojBodovaZlato = 20000;
         }
         
     }

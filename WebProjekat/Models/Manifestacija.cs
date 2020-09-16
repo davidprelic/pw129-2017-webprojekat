@@ -14,6 +14,9 @@ namespace WebProjekat.Models
         public string Naziv { get; set; }
         public Enums.TipManifestacije Tip { get; set; }
         public int BrojMesta { get; set; }
+        public int BrojRegularKarata { get; set; }
+        public int BrojVipKarata { get; set; }
+        public int BrojFanpitKarata { get; set; }
         public DateTime DatumVremeOdrzavanja { get; set; }
         public decimal CenaRegularKarte { get; set; }
         public Enums.StatusManifestacije Status { get; set; }
@@ -23,7 +26,7 @@ namespace WebProjekat.Models
 
         public Manifestacija() {}
 
-        public Manifestacija(string id, string naziv, string tip, string brojMesta, string datumVremeOdrzavanja, string cenaRegularKarte, string status, string mestoOdrzavanjaID, string posterManifestacije, string isDeleted)
+        public Manifestacija(string id, string naziv, string tip, string brojMesta, string brojRegularKarata, string brojVipKarata, string brojFanpitKarata, string datumVremeOdrzavanja, string cenaRegularKarte, string status, string mestoOdrzavanjaID, string posterManifestacije, string isDeleted)
         {
             Id = id;
             Naziv = naziv;
@@ -33,6 +36,9 @@ namespace WebProjekat.Models
             BrojMesta = Int32.Parse(brojMesta);
             DatumVremeOdrzavanja = DateTime.ParseExact(datumVremeOdrzavanja, "d/M/yyyy", CultureInfo.InvariantCulture);
             CenaRegularKarte = Decimal.Parse(cenaRegularKarte);
+            BrojRegularKarata = Int32.Parse(brojRegularKarata);
+            BrojVipKarata = Int32.Parse(brojVipKarata);
+            BrojFanpitKarata = Int32.Parse(brojFanpitKarata);
             Enums.StatusManifestacije sm;
             Enum.TryParse(status, out sm);
             Status = sm;
@@ -47,7 +53,7 @@ namespace WebProjekat.Models
             var date = dt.Date;
             string datumString = dt.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
 
-            return $"{Id};{Tip.ToString()};{BrojMesta.ToString()};{datumString};{CenaRegularKarte.ToString()};{Status.ToString()};{MestoOdrzavanjaID};{PosterManifestacije};{IsDeleted}";
+            return $"{Id};{Naziv};{Tip.ToString()};{BrojMesta.ToString()};{BrojRegularKarata.ToString()};{BrojVipKarata.ToString()};{BrojFanpitKarata.ToString()};{datumString};{CenaRegularKarte.ToString()};{Status.ToString()};{MestoOdrzavanjaID};{PosterManifestacije};{IsDeleted}";
         }
 
         public string SacuvajManifestaciju()

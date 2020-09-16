@@ -1,7 +1,9 @@
-﻿asdf;Lovefest;FESTIVAL;5000;15/09/2020;4500;AKTIVNO;qwe;/Images/lovefest.jpg;False
-kjks;Exit;FESTIVAL;9400;23/11/2020;6300;AKTIVNO;rsq;/Images/exitfest.jpg;False
-lfgd;SASA MATIC;KONCERT;9000;03/02/2020;6000;AKTIVNO;rrr;/Images/sasamatic.jpg;False
-gdfs;Barcelona - Real Madrid;SPORT;90000;29/11/2020;12000;AKTIVNO;fff;/Images/barcareal.jpeg;False
-trfs;TEATAR NA BRDU;POZORISTE;5000;11/04/2020;4500;AKTIVNO;sss;/Images/pozoriste.jpg;False
-wwfs;FK CRVENA ZVEZDA - SEZONKSE KARTE;SPORT;5000;15/09/2020;4500;AKTIVNO;ttt;/Images/sezonskakartaczv.jpg;False
-ppps;FK PARTIZAN - SEZONKSE KARTE;SPORT;5000;15/09/2020;4500;AKTIVNO;uuu;/Images/sezonskakartapfc.jpg;False
+asdf;Lovefest;FESTIVAL;5000;1000;1000;3000;15/09/2020;4500;AKTIVNO;qwe;/Images/lovefest.jpg;False
+kjks;Exit;FESTIVAL;9400;3000;3000;3400;23/11/2020;6300;AKTIVNO;rsq;/Images/exitfest.jpg;False
+lfgd;SASA MATIC;KONCERT;9000;3000;3000;3000;03/02/2020;6000;AKTIVNO;rrr;/Images/sasamatic.jpg;False
+gdfs;BARCA - Real Madrid;SPORT;90000;30000;30000;30000;29/11/2020;12000;AKTIVNO;fff;/Images/barcareal.jpeg;False
+trfs;TEATAR NA BRDU;POZORISTE;5000;1000;1000;3000;11/04/2020;4500;AKTIVNO;sss;/Images/pozoriste.jpg;False
+wwfs;FK CRVENA ZVEZDA - SEZONKSE KARTE;SPORT;5000;1000;1000;3000;15/09/2020;4500;AKTIVNO;ttt;/Images/sezonskakartaczv.jpg;False
+ppps;FK PARTIZAN - SEZONKSE KARTE;SPORT;5000;1000;1000;3000;15/09/2020;4500;AKTIVNO;uuu;/Images/sezonskakartapfc.jpg;False
+3b82f04e-cbb8-4ced-8f83-b188ab9ae8bd;med123;FESTIVAL;4;1;1;2;09/09/2020;123;AKTIVNO;mestoodrzavanja;C:\fakepath\rejKrok.jpg;False
+0d149b98-0e94-4143-998d-ed189a532b1f;proooba;SPORT;15;10;2;3;13/09/2020;1500;AKTIVNO;mestoodrzavanja;C:\fakepath\rejKrok.jpg;False

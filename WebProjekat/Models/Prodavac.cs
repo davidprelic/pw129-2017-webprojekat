@@ -14,8 +14,9 @@ namespace WebProjekat.Models
 
         public Prodavac() { }
 
-        public Prodavac(string korisnickoIme, string lozinka, string ime, string prezime, string pol, string datumRodjenja, string uloga, string sveMojeManifestacije, string isDeleted)
+        public Prodavac(string id, string korisnickoIme, string lozinka, string ime, string prezime, string pol, string datumRodjenja, string uloga, string sveMojeManifestacije, string isDeleted)
         {
+            Id = id;
             KorisnickoIme = korisnickoIme;
             Lozinka = lozinka;
             Ime = ime;
@@ -30,7 +31,8 @@ namespace WebProjekat.Models
             Uloga = u;
 
             //PROVERITI DA LI MOZE OVAKO
-            SveMojeManifestacije = sveMojeManifestacije.Split(',').ToList();
+            List<string> sveMojeManifLista = sveMojeManifestacije.Split('|')[1].Split(',').ToList();
+            SveMojeManifestacije = sveMojeManifLista;
 
             IsDeleted = bool.Parse(isDeleted);
         }
@@ -41,7 +43,7 @@ namespace WebProjekat.Models
             var date = dt.Date;
             string datumString = dt.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
 
-            string ret = $"{KorisnickoIme};{Lozinka};{Ime};{Prezime};{Pol.ToString()};{datumString};{Uloga.ToString()};|";
+            string ret = $"{Id};{KorisnickoIme};{Lozinka};{Ime};{Prezime};{Pol.ToString()};{datumString};{Uloga.ToString()};|";
             foreach (string item in SveMojeManifestacije)
             {
                 ret += $"{item},";
