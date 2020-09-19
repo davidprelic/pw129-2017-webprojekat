@@ -15,5 +15,6 @@ namespace WebProjekat.Models
         public enum StatusKarte { REZERVISANA, ODUSTANAK }
         public enum TipKarte { VIP, REGULAR, FANPIT }
         public enum Ocena { JEDAN, DVA, TRI, CETIRI, PET }
+        public enum StatusKomentara { NACEKANJU, PRIHVACEN, ODBIJEN }
     }
 }

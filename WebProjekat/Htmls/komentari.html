@@ -6,7 +6,7 @@
     <title>Register</title>
     <!--CSS FILES-->
     <link rel="stylesheet" href="../Styles/bootstrap-css/bootstrap.min.css">
-    <link rel="stylesheet" href="../Styles/pregledManifestacije.css">
+    <link rel="stylesheet" href="../Styles/komentari.css">
 </head>
 <body>
     <!--NAVBAR-->
@@ -32,35 +32,19 @@
 
     <!--CONTENT CONTAINER-->
     <header class="page-header header container-fluid">
-        <div id="prikazManif"></div>
-        <div>
-            <form class="kupovina"></form>
-        </div>
-        <div>
-            <form class="komentari"></form>
-        </div>
-
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Potvrda rezervisanja</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary odustanak" data-dismiss="modal">Odustani</button>
-                        <button type="button" class="btn btn-primary potvrda">Potvrdi</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
+        <table id="sviKomentari" class="table table-success table-hover table-sm">
+            <caption class="h5 text-dark">Pregled svih komentara:</caption>
+            <thead class="thead-dark">
+                <tr>
+                    <th>Kupac</th>
+                    <th>Manifestacija</th>
+                    <th>Tekst komentara</th>
+                    <th>Ocena</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="tbodySviKomentari"></tbody>
+        </table>
     </header>
 
 
@@ -68,6 +52,6 @@
     <!--JQUERY AND JS FILES-->
     <script src="../Scripts/jquery-3.5.1.min.js"></script>
     <script src="../Scripts/bootstrap-js/bootstrap.min.js"></script>
-    <script src="../Scripts/pregledManifestacije.js"></script>
+    <script src="../Scripts/komentari.js"></script>
 </body>
 </html>

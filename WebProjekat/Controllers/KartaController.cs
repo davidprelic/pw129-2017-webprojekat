@@ -71,6 +71,38 @@ namespace WebProjekat.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        [Route("kupac-poseduje-kartu")]
+        public IHttpActionResult ProveriPosedujeLiKupacKartu(string id)
+        {
+            Korisnik korisnikSesija = (Korisnik)HttpContext.Current.Session["Korisnik"];
+            if (korisnikSesija == null)
+            {
+                korisnikSesija = new Korisnik();
+                HttpContext.Current.Session["Korisnik"] = korisnikSesija;
+            }
+
+            bp.listaKarata = (Dictionary<string, Karta>)HttpContext.Current.Application["Karte"];
+            bp.listaManifestacija = (Dictionary<string, Manifestacija>)HttpContext.Current.Application["Manifestacije"];
+
+            KupacPosedujeKartuDTO kpk = new KupacPosedujeKartuDTO(false, false);
+
+            if (korisnikSesija.Uloga == Enums.Uloga.KUPAC)
+            {
+                Kupac k = (Kupac)korisnikSesija;
+                kpk.KorisnikJeKupac = true;
+                foreach (var item in k.SveMojeKarteBezObziraNaStatus)
+                {
+                    if (bp.listaKarata[item].ManifestacijaID == id && bp.listaKarata[item].Status == Enums.StatusKarte.REZERVISANA)
+                    {
+                        kpk.KorisnikPosedujeKartuManifestacije = true;
+                        return Ok(kpk);
+                    }
+                }
+            }
+
+            return Ok(kpk);
+        }
 
     }
 }

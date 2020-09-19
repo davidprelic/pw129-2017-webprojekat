@@ -14,10 +14,12 @@ namespace WebProjekat.Models
         public string ManifestacijaID { get; set; }
         public string Tekst { get; set; }
         public Enums.Ocena Ocena { get; set; }
+        public Enums.StatusKomentara Status { get; set; }
+        public bool IsDeleted { get; set; }
 
         public Komentar() { }
 
-        public Komentar(string id, string kupacID, string manifestacijaID, string tekst, string ocena)
+        public Komentar(string id, string kupacID, string manifestacijaID, string tekst, string ocena, string status, string isDeleted)
         {
             Id = id;
             KupacID = kupacID;
@@ -26,11 +28,15 @@ namespace WebProjekat.Models
             Enums.Ocena oc;
             Enum.TryParse(ocena, out oc);
             Ocena = oc;
+            Enums.StatusKomentara sk;
+            Enum.TryParse(status, out sk);
+            Status = sk;
+            IsDeleted = bool.Parse(isDeleted);
         }
 
         public override string ToString()
         {
-            return $"{Id};{KupacID};{ManifestacijaID};{Tekst};{Ocena.ToString()}";
+            return $"{Id};{KupacID};{ManifestacijaID};{Tekst};{Ocena.ToString()};{Status.ToString()};{IsDeleted.ToString()}";
         }
 
         public string SacuvajKomentar()

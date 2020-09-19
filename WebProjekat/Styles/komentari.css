@@ -40,11 +40,20 @@ h3 {
     margin-left: 440px;
 }
 
+#sviKomentari {
+    width: 100%;
+}
+
+
+table {
+    border: 1px solid black;
+}
+
+caption {
+    caption-side: top;
+    color: black;
+}
+
 textarea {
     resize: none;
 }
-
-.jedanKomentar {
-    border-style: solid;
-}
-

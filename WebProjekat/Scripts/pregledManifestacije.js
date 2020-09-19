@@ -13,6 +13,8 @@
                 $('#kartice').after(kartice);
                 var kartice = '<li class="nav-item"><a class="nav-link" href="potvrdaManifestacija.html"> Potvrda manifestacija</a></li>';
                 $('#kartice').after(kartice);
+                var kartice = '<li class="nav-item"><a class="nav-link" href="komentari.html"> Prikaz komentara</a></li>';
+                $('#kartice').after(kartice);
                 $('#logProfKartica').text('Profil');
                 $('#regLogoutKartica').text('Odjavi se');
             }
@@ -21,20 +23,13 @@
                 $('#kartice').after(kartice);
                 $('#logProfKartica').text('Profil');
                 $('#regLogoutKartica').text('Odjavi se');
-
-                var kupovinaKarata = '<select id="tipkarte" name="tipkarte">'
-                                        + '<option value="regular">Regular karta</option>'
-                                        + '<option value="vip">Vip karta</option>'
-                                        + '<option value="fanpit">Fanpit karta</option>'
-                                    + '</select>'               
-                                    + '<input type="number" min="1" step="1" id="brojKarata" name="brojKarata" placeholder="Broj karata">'
-                    + `<button type="button" id="kupi" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Rezervisi</button>`;
-                $('.kupovina').append(kupovinaKarata);
             }
             else if (data === 'PRODAVAC') {
                 var kartice = '<li class="nav-item"><a class="nav-link" href="prodavacManifestacije.html"> Moje manifestacije</a></li>';
                 $('#kartice').after(kartice);
                 var kartice = '<li class="nav-item"><a class="nav-link" href="kreirajManifestaciju.html"> Kreiraj manifestaciju</a></li>';
+                $('#kartice').after(kartice);
+                var kartice = '<li class="nav-item"><a class="nav-link" href="komentari.html"> Prikaz komentara</a></li>';
                 $('#kartice').after(kartice);
                 $('#logProfKartica').text('Profil');
                 $('#regLogoutKartica').text('Odjavi se');
@@ -75,7 +70,7 @@
     var brojDodatnihBodova;
 
     $('body').on('click', '#kupi', function () {
-        console.log("PROVERA KLIKA");
+        console.log("PROVERA KLIKA KUPI");
         var tipKarte = document.getElementById("tipkarte");
         izabranTipKarte = tipKarte.options[tipKarte.selectedIndex].value;
 
@@ -116,7 +111,6 @@
 
     $('body').on('click', '.potvrda', function () {
         console.log("POTVRDA KLIK");
-        console.log();
         $.ajax({
             url: '/karte',
             method: 'POST',
@@ -137,8 +131,31 @@
                 alert("ERROR");
             }
         });
-
     });
+
+
+    $('body').on('click', '#komentarisi', function () {
+        console.log("PROVERA KLIKA KOMENTARISI");
+
+        $.ajax({
+            url: '/komentari',
+            method: 'POST',
+            data: {
+                ManifestacijaId: idParametar,
+                Tekst: $('#komentar').val(),
+                Ocena: $('#ocena').val(),
+                Status: $('#status').val(),
+                IsDeleted: $('#isDeleted').val(),
+            },
+            success: function () {
+                console.log("USPESNA POSLATI PODACI AJAXOM");
+            },
+            error: function (jqXHR) {
+                alert("ERROR");
+            }
+        });
+    });
+
 
     var cenaRegularKarte;
     var datumManif;
@@ -183,6 +200,89 @@
                             + '</div>'
                         + '</div>'
             $('#prikazManif').append(manif);
+
+
+            $.ajax({
+                url: '/komentari-jedne-manif',
+                method: 'GET',
+                data: {
+                    ManifestacijaId: idParametar,
+                },
+                success: function (data) {
+                    var komentari = JSON.parse(data);
+
+                    var ocenaManif = "";
+
+                    for (var i = 0; i < komentari.length; i++) {
+
+                        switch (komentari[i].Ocena) {
+                            case 0:
+                                ocenaManif = "1";
+                                break;
+                            case 1:
+                                ocenaManif = "2";
+                                break;
+                            case 2:
+                                ocenaManif = "3";
+                                break;
+                            case 3:
+                                ocenaManif = "4";
+                                break;
+                            case 4:
+                                tipManif = "5";
+                        }
+
+                        var komentar = '<div class="jedanKomentar" border>'
+                            + "<span>" + komentari[i].KorisnickoIme + " | " + komentari[i].Tekst + " | " +  ocenaManif + "</span>"
+                            + "</div>";
+                        $('#prikazManif').append(komentar);
+
+                    }
+                }
+            });
+
+
+
+            $.ajax({
+                url: '/kupac-poseduje-kartu',
+                method: 'GET',
+                data: {
+                    Id: idParametar
+                },
+                success: function (data) {
+                    var trenutniDatum = new Date();
+
+                    if (data.KorisnikJeKupac && trenutniDatum < datum) {
+                        var kupovinaKarata = '<select id="tipkarte" name="tipkarte">'
+                                                + '<option value="regular">Regular karta</option>'
+                                                + '<option value="vip">Vip karta</option>'
+                                                + '<option value="fanpit">Fanpit karta</option>'
+                                           + '</select>'               
+                                           + '<input type="number" min="1" step="1" id="brojKarata" name="brojKarata" placeholder="Broj karata">'
+                                           + `<button type="button" id="kupi" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Rezervisi</button>`;
+                        $('.kupovina').append(kupovinaKarata);
+                    }
+                    else if (data.KorisnikJeKupac && data.KorisnikPosedujeKartuManifestacije && trenutniDatum > datum) {
+                        var komentarisanje = 'Ocena manifestacije : ' + '<select id="ocena" name="ocena">'
+                                                + '<option value="pet">5</option>'
+                                                + '<option value="cetiri">4</option>'
+                                                + '<option value="tri">3</option>'
+                                                + '<option value="dva">2</option>'
+                                                + '<option value="jedan">1</option>'
+                                            + '</select>'  
+                                            + '<br>'
+                                            + '<textarea id="komentar" name="komentar" rows="4" cols="50"></textarea>'
+                                            + '<input id="isDeleted" name="isDeleted" type="hidden" value="False">'
+                                            + '<input id="status" name="status" type="hidden" value="Nacekanju">'
+                                            + '<br>'
+                                            + `<button type="button" id="komentarisi" class="btn btn-primary">Komentarisi i oceni</button>`;
+                        $('.komentari').append(komentarisanje);
+                    }
+                },
+                error: function (jqXHR) {
+                    alert("ERROR");
+                }
+            });
         },
         error: function (jqXHR) {
             alert("ERROR");
