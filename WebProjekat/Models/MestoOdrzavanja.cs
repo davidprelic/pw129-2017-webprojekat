@@ -7,10 +7,19 @@ namespace WebProjekat.Models
 {
     public class MestoOdrzavanja
     {
-        public string Id { get; set; }
         public string Ulica { get; set; }
-        public int Broj { get; set; }
         public string Grad { get; set; }
+        public string Drzava { get; set; }
         public int PostanskiBroj { get; set; }
+
+        public MestoOdrzavanja() { }
+
+        public MestoOdrzavanja(string ulica, string grad, string drzava, int postanskiBroj)
+        {
+            Ulica = ulica;
+            Grad = grad;
+            Drzava = drzava;
+            PostanskiBroj = postanskiBroj;
+        }
     }
 }

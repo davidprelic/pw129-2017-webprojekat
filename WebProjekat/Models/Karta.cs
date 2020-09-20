@@ -17,10 +17,11 @@ namespace WebProjekat.Models
         public string KupacID { get; set; }
         public Enums.StatusKarte Status { get; set; }
         public Enums.TipKarte Tip { get; set; }
+        public bool IsDeleted { get; set; }
 
         public Karta() { }
 
-        public Karta(string id, string manifestacijaID, string datumVremeManifestacije, string cena, string kupacID, string status, string tip)
+        public Karta(string id, string manifestacijaID, string datumVremeManifestacije, string cena, string kupacID, string status, string tip, string isDeleted)
         {
             Id = id;
             ManifestacijaID = manifestacijaID;
@@ -33,6 +34,7 @@ namespace WebProjekat.Models
             Enums.TipKarte tk;
             Enum.TryParse(tip, out tk);
             Tip = tk;
+            IsDeleted = bool.Parse(isDeleted);
         }
 
         public override string ToString()
@@ -41,7 +43,7 @@ namespace WebProjekat.Models
             var date = dt.Date;
             string datumString = dt.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
 
-            return $"{Id};{ManifestacijaID};{datumString};{Cena.ToString()};{KupacID};{Status.ToString()};{Tip.ToString()}";
+            return $"{Id};{ManifestacijaID};{datumString};{Cena.ToString()};{KupacID};{Status.ToString()};{Tip.ToString()};{IsDeleted.ToString()}";
         }
 
         public string SacuvajKartu()

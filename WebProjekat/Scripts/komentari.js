@@ -9,6 +9,8 @@
             if (data === 'ADMINISTRATOR') {
                 var kartice = '<li class="nav-item"><a class="nav-link" href="korisnici.html"> Pregled korisnika</a></li>';
                 $('#kartice').after(kartice);
+                var kartice = '<li class="nav-item"><a class="nav-link" href="adminKarte.html"> Sve karte</a></li>';
+                $('#kartice').after(kartice);
                 var kartice = '<li class="nav-item"><a class="nav-link" href="kreirajProdavca.html"> Kreiraj prodavca</a></li>';
                 $('#kartice').after(kartice);
                 var kartice = '<li class="nav-item"><a class="nav-link" href="potvrdaManifestacija.html"> Potvrda manifestacija</a></li>';
@@ -20,6 +22,8 @@
             }
             else if (data === 'PRODAVAC') {
                 var kartice = '<li class="nav-item"><a class="nav-link" href="prodavacManifestacije.html"> Moje manifestacije</a></li>';
+                $('#kartice').after(kartice);
+                var kartice = '<li class="nav-item"><a class="nav-link" href="prodavacKarte.html"> Rezervisane karte</a></li>';
                 $('#kartice').after(kartice);
                 var kartice = '<li class="nav-item"><a class="nav-link" href="kreirajManifestaciju.html"> Kreiraj manifestaciju</a></li>';
                 $('#kartice').after(kartice);

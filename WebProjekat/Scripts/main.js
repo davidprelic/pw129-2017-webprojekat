@@ -9,6 +9,8 @@
             if (data === 'ADMINISTRATOR') {
                 var kartice = '<li class="nav-item"><a class="nav-link" href="korisnici.html"> Pregled korisnika</a></li>';
                 $('#kartice').after(kartice);
+                var kartice = '<li class="nav-item"><a class="nav-link" href="adminKarte.html"> Sve karte</a></li>';
+                $('#kartice').after(kartice);
                 var kartice = '<li class="nav-item"><a class="nav-link" href="kreirajProdavca.html"> Kreiraj prodavca</a></li>';
                 $('#kartice').after(kartice);
                 var kartice = '<li class="nav-item"><a class="nav-link" href="potvrdaManifestacija.html"> Potvrda manifestacija</a></li>';
@@ -19,13 +21,15 @@
                 $('#regLogoutKartica').text('Odjavi se');
             }
             else if (data === 'KUPAC') {
-                var kartice = '<li class="nav-item"><a class="nav-link" href="register.html">Moje karte</a></li>';
+                var kartice = '<li class="nav-item"><a class="nav-link" href="kupacKarte.html">Moje karte</a></li>';
                 $('#kartice').after(kartice);
                 $('#logProfKartica').text('Profil');
                 $('#regLogoutKartica').text('Odjavi se');
             }
             else if (data === 'PRODAVAC') {
                 var kartice = '<li class="nav-item"><a class="nav-link" href="prodavacManifestacije.html"> Moje manifestacije</a></li>';
+                $('#kartice').after(kartice);
+                var kartice = '<li class="nav-item"><a class="nav-link" href="prodavacKarte.html"> Rezervisane karte</a></li>';
                 $('#kartice').after(kartice);
                 var kartice = '<li class="nav-item"><a class="nav-link" href="kreirajManifestaciju.html"> Kreiraj manifestaciju</a></li>';
                 $('#kartice').after(kartice);
@@ -71,12 +75,17 @@
                 }
 
                 var eachManif = `<div class="col-sm-3 trenutnaManif" data-id="${manifestacije[i].Id}" onclick="prikaziManif(this)">`
-                                     + '<div class="card text-center border-success">'
-                                        + '<div class="card-header">' + tipManif + '</div>'
-                                        + '<div class="card-body">'
-                                            + `<img class="card-img-top" src="${manifestacije[i].PosterManifestacije}">`
-                                            + '<h5 class="card-title">' + manifestacije[i].Naziv + "</h5>"
-                                            + '<p class="card-text">' + datum.getDate() + '/' + mesec + '/' + datum.getFullYear() + "</p>"
+                    + '<div class="card text-center border-success">'
+                    + '<div class="card-header">' + tipManif + '</div>'
+                    + '<div class="card-body">'
+                    + `<img class="card-img-top" src="${manifestacije[i].PosterManifestacije}">`
+                    + '<h5 class="card-title">' + manifestacije[i].Naziv + "</h5>"
+                    + '<p class="card-text">' + datum.getDate() + '/' + mesec + '/' + datum.getFullYear() + "</p>"
+                    + '<p class="card-text">' + manifestacije[i].MestoOdrzavanjaManif.Ulica + ", " + manifestacije[i].MestoOdrzavanjaManif.Grad + ", " + manifestacije[i].MestoOdrzavanjaManif.Drzava + "</p>";
+                if (manifestacije[i].ProsecnaOcenaManif)
+                    eachManif += '<p class="card-text">Prosecna ocena: ' + manifestacije[i].ProsecnaOcenaManif + "</p>";
+
+                eachManif += '<p class="card-text">Cena karte: ' + manifestacije[i].CenaRegularKarte + " rsd" + "</p>"
                                         + '</div>'
                                     + '</div>'
                               + "</div>";
@@ -153,6 +162,11 @@
                         + `<img class="card-img-top" src="${data[i].PosterManifestacije}">`
                         + '<h5 class="card-title">' + data[i].Naziv + "</h5>"
                         + '<p class="card-text">' + datum.getDate() + '/' + mesec + '/' + datum.getFullYear() + "</p>"
+                        + '<p class="card-text">' + data[i].MestoOdrzavanjaManif.Ulica + ", " + data[i].MestoOdrzavanjaManif.Grad + ", " + data[i].MestoOdrzavanjaManif.Drzava + "</p>";
+                    if (data[i].ProsecnaOcenaManif)
+                        eachManif += '<p class="card-text">Prosecna ocena: ' + data[i].ProsecnaOcenaManif + "</p>";
+
+                    eachManif += '<p class="card-text">Cena karte: ' + data[i].CenaRegularKarte + " rsd" + "</p>"
                         + '</div>'
                         + '</div>'
                         + "</div>";

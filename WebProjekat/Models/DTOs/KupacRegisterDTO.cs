@@ -9,7 +9,7 @@ namespace WebProjekat.Models.DTOs
     public class KupacRegisterDTO
     {
         [Required]
-        [StringLength(60, MinimumLength = 3)]
+        [StringLength(60, MinimumLength = 4)]
         public string KorisnickoIme { get; set; }
         [Required]
         [StringLength(60, MinimumLength = 8)]

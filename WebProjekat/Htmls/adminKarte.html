@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Register</title>
+    <!--CSS FILES-->
+    <link rel="stylesheet" href="../Styles/bootstrap-css/bootstrap.min.css">
+    <link rel="stylesheet" href="../Styles/adminKarte.css">
+</head>
+<body>
+    <!--NAVBAR-->
+    <nav class="navbar navbar-expand-md">
+        <a class="navbar-brand" href="index.html">Logo</a>
+        <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-navigation">
+            <ul class="navbar-nav">
+                <li class="nav-item" id="kartice">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="logProfKartica" href="loginProfile.html">Prijavi se</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="regLogoutKartica" href="register.html">Registruj se</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!--CONTENT CONTAINER-->
+    <header class="page-header header container-fluid">
+
+        <table id="sveKarte" class="table table-success table-hover table-sm">
+            <caption class="h5 text-dark">Rezervisane karte prodavca:</caption>
+            <thead class="thead-dark">
+                <tr>
+                    <th>Naziv manifestacije</th>
+                    <th>Datum odrzavanja</th>
+                    <th>Cena karte</th>
+                    <th>Korisnicko ime kupca</th>
+                    <th>Tip karte</th>
+                    <th>Status karte</th>
+                </tr>
+            </thead>
+            <tbody id="tbodySveKarte"></tbody>
+        </table>
+
+    </header>
+
+
+
+    <!--JQUERY AND JS FILES-->
+    <script src="../Scripts/jquery-3.5.1.min.js"></script>
+    <script src="../Scripts/bootstrap-js/bootstrap.min.js"></script>
+    <script src="../Scripts/adminKarte.js"></script>
+</body>
+</html>

@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Results;
 using WebProjekat.Models;
+using WebProjekat.Models.DTOs;
 
 namespace WebProjekat.Controllers
 {
@@ -50,6 +51,8 @@ namespace WebProjekat.Controllers
         public IHttpActionResult PretragaSortFilter(string naziv, string mesto, DateTime? datumOd, DateTime? datumDo, decimal? cenaOd, decimal? cenaDo, string opcijaSort, string opcijaFilter)
         {
             bp.listaManifestacija = (Dictionary<string, Manifestacija>)HttpContext.Current.Application["Manifestacije"];
+            bp.listaLokacija = (Dictionary<string, Lokacija>)HttpContext.Current.Application["Lokacije"];
+            bp.listaKomentara = (Dictionary<string, Komentar>)HttpContext.Current.Application["Komentari"];
 
             List<Manifestacija> filter = new List<Manifestacija>();
 
@@ -58,8 +61,10 @@ namespace WebProjekat.Controllers
                 string nazivPar = (naziv == null) ? "" : naziv;
                 string mestoPar = (mesto == null) ? "" : mesto;
 
+
+
                 //if (proizvodi.list[key].RaspolozivaKolicina != 0 && proizvodi.list[key].Naziv.Equals(naziv))
-                if (bp.listaManifestacija[key].Naziv.Contains(nazivPar) && bp.listaManifestacija[key].MestoOdrzavanjaID.Contains(mestoPar))
+                if (bp.listaManifestacija[key].Naziv.Contains(nazivPar) && (bp.listaLokacija[bp.listaManifestacija[key].LokacijaId].MestoOdrzavanja.Grad.Contains(mestoPar) || bp.listaLokacija[bp.listaManifestacija[key].LokacijaId].MestoOdrzavanja.Drzava.Contains(mestoPar)))
                 {
                     filter.Add(bp.listaManifestacija[key]);
                 }
@@ -134,13 +139,102 @@ namespace WebProjekat.Controllers
             else if (opcijaSort == "poCeniOpadajuce")
                 cenaFilter = cenaFilter.OrderByDescending(p => p.CenaRegularKarte).ToList();
             else if (opcijaSort == "poMestuAZ")
-                cenaFilter = cenaFilter.OrderBy(p => p.MestoOdrzavanjaID).ToList();
+                cenaFilter = cenaFilter.OrderBy(p => bp.listaLokacija[p.LokacijaId].MestoOdrzavanja.Grad).ToList();
             else if (opcijaSort == "poMestuZA")
-                cenaFilter = cenaFilter.OrderByDescending(p => p.MestoOdrzavanjaID).ToList();
+                cenaFilter = cenaFilter.OrderByDescending(p => bp.listaLokacija[p.LokacijaId].MestoOdrzavanja.Grad).ToList();
 
-            // DODATI JOS ZA FILTRIRANJE 
+            List<Manifestacija> filterOpcija = new List<Manifestacija>();
 
-            return Ok(cenaFilter);
+            if (opcijaFilter == "koncert")
+            {
+                foreach (var item in cenaFilter)
+                {
+                    if (item.Tip == Enums.TipManifestacije.KONCERT)
+                        filterOpcija.Add(item);
+                }
+                return Ok(DodajProsecnuOcenu(filterOpcija));
+            }
+            else if (opcijaFilter == "festival")
+            {
+                foreach (var item in cenaFilter)
+                {
+                    if (item.Tip == Enums.TipManifestacije.FESTIVAL)
+                        filterOpcija.Add(item);
+                }
+                return Ok(DodajProsecnuOcenu(filterOpcija));
+            }
+            else if (opcijaFilter == "pozoriste")
+            {
+                foreach (var item in cenaFilter)
+                {
+                    if (item.Tip == Enums.TipManifestacije.POZORISTE)
+                        filterOpcija.Add(item);
+                }
+                return Ok(DodajProsecnuOcenu(filterOpcija));
+            }
+            else if (opcijaFilter == "sport")
+            {
+                foreach (var item in cenaFilter)
+                {
+                    if (item.Tip == Enums.TipManifestacije.SPORT)
+                        filterOpcija.Add(item);
+                }
+                return Ok(DodajProsecnuOcenu(filterOpcija));
+            }
+            else if (opcijaFilter == "nerasprodate")
+            {
+                foreach (var item in cenaFilter)
+                {
+                    if ((item.BrojFanpitKarata + item.BrojRegularKarata + item.BrojVipKarata) > 0)
+                        filterOpcija.Add(item);
+                }
+                return Ok(DodajProsecnuOcenu(filterOpcija));
+            }
+
+            return Ok(DodajProsecnuOcenu(cenaFilter));
+        }
+
+
+        public List<ManifestacijePocetnaDTO> DodajProsecnuOcenu(List<Manifestacija> lista)
+        {
+            List<ManifestacijePocetnaDTO> pocetnaLista = new List<ManifestacijePocetnaDTO>();
+
+            int prosecnaOcena = 0;
+            int brojac = 0;
+            int ocena;
+            foreach (var item in lista)
+            {
+                if (item.Status == Enums.StatusManifestacije.AKTIVNO)
+                {
+                    foreach (var komentar in bp.listaKomentara.Values)
+                    {
+                        if (komentar.ManifestacijaID == item.Id)
+                        {
+                            brojac++;
+                            if (komentar.Ocena == Enums.Ocena.JEDAN)
+                                ocena = 1;
+                            else if (komentar.Ocena == Enums.Ocena.DVA)
+                                ocena = 2;
+                            else if (komentar.Ocena == Enums.Ocena.TRI)
+                                ocena = 3;
+                            else if (komentar.Ocena == Enums.Ocena.CETIRI)
+                                ocena = 4;
+                            else
+                                ocena = 5;
+
+                            prosecnaOcena += ocena;
+                        }
+                    }
+                    if (prosecnaOcena == 0)
+                        pocetnaLista.Add(new ManifestacijePocetnaDTO(item.Id, item.Naziv, item.Tip, item.BrojMesta, item.BrojRegularKarata, item.BrojVipKarata, item.BrojFanpitKarata, item.DatumVremeOdrzavanja, item.CenaRegularKarte, item.Status, item.LokacijaId, item.PosterManifestacije, bp.listaLokacija[item.LokacijaId].MestoOdrzavanja, prosecnaOcena, item.IsDeleted));
+                    else
+                        pocetnaLista.Add(new ManifestacijePocetnaDTO(item.Id, item.Naziv, item.Tip, item.BrojMesta, item.BrojRegularKarata, item.BrojVipKarata, item.BrojFanpitKarata, item.DatumVremeOdrzavanja, item.CenaRegularKarte, item.Status, item.LokacijaId, item.PosterManifestacije, bp.listaLokacija[item.LokacijaId].MestoOdrzavanja, prosecnaOcena / brojac, item.IsDeleted));
+                }
+                brojac = 0;
+                prosecnaOcena = 0;
+            }
+
+            return pocetnaLista;
         }
 
     }

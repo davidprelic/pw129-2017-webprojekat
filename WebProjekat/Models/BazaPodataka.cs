@@ -13,6 +13,7 @@ namespace WebProjekat.Models
         public Dictionary<string, Manifestacija> listaManifestacija { get; set; }
         public Dictionary<string, Karta> listaKarata { get; set; }
         public Dictionary<string, Komentar> listaKomentara { get; set; }
+        public Dictionary<string, Lokacija> listaLokacija { get; set; }
 
 
         public BazaPodataka() { }
@@ -80,7 +81,7 @@ namespace WebProjekat.Models
                 // PRAVILNO ISPARSIRATI SVA POLJA IZ TEKSTUALNE DATOTEKE
 
                 string[] tokens = line.Split(';');
-                k = new Karta(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6]);
+                k = new Karta(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], tokens[7]);
 
                 listaKarata.Add(k.Id, k);
             }
@@ -105,6 +106,29 @@ namespace WebProjekat.Models
                 k = new Komentar(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6]);
 
                 listaKomentara.Add(k.Id, k);
+            }
+            sr.Close();
+            stream.Close();
+        }
+
+
+        public void UcitajLokacije(string path)
+        {
+            path = HostingEnvironment.MapPath(path);
+            listaLokacija = new Dictionary<string, Lokacija>();
+            FileStream stream = new FileStream(path, FileMode.Open);
+            StreamReader sr = new StreamReader(stream);
+            string line = "";
+            Lokacija l = null;
+
+            while ((line = sr.ReadLine()) != null)
+            {
+                // PRAVILNO ISPARSIRATI SVA POLJA IZ TEKSTUALNE DATOTEKE
+
+                string[] tokens = line.Split(';');
+                l = new Lokacija(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6]);
+
+                listaLokacija.Add(l.Id, l);
             }
             sr.Close();
             stream.Close();
@@ -160,6 +184,21 @@ namespace WebProjekat.Models
             foreach (var key in listaKomentara.Keys)
             {
                 sw.WriteLine(listaKomentara[key].ToString());
+            }
+
+            sw.Close();
+            stream.Close();
+        }
+
+
+        public void AzurirajLokacije()
+        {
+            string path = HostingEnvironment.MapPath("~/App_Data/lokacije.txt");
+            FileStream stream = new FileStream(path, FileMode.Create);
+            StreamWriter sw = new StreamWriter(stream);
+            foreach (var key in listaLokacija.Keys)
+            {
+                sw.WriteLine(listaLokacija[key].ToString());
             }
 
             sw.Close();

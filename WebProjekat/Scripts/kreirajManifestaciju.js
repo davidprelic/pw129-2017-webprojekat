@@ -12,6 +12,8 @@
             else {
                 var kartice = '<li class="nav-item"><a class="nav-link" href="prodavacManifestacije.html"> Moje manifestacije</a></li>';
                 $('#kartice').after(kartice);
+                var kartice = '<li class="nav-item"><a class="nav-link" href="prodavacKarte.html"> Rezervisane karte</a></li>';
+                $('#kartice').after(kartice);
                 var kartice = '<li class="nav-item"><a class="nav-link" href="kreirajManifestaciju.html"> Kreiraj manifestaciju</a></li>';
                 $('#kartice').after(kartice);
                 var kartice = '<li class="nav-item"><a class="nav-link" href="komentari.html"> Prikaz komentara</a></li>';
@@ -30,15 +32,52 @@
             })
         ],
         view: new ol.View({
-            center: ol.proj.fromLonLat([37.41, 8.82]),
+            center: ol.proj.fromLonLat([21.0059, 44.0165]),
             zoom: 4
         })
+    });
+
+    var geoDuzina;
+    var geoSirina;
+    var ulica;
+    var grad;
+    var drzava;
+    var postanskiBroj;
+
+    function reverseGeocode(coords) {
+        fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + coords[0] + '&lat=' + coords[1])
+            .then(function (response) {
+                return response.json();
+            }).then(function (json) {
+                console.log(json);
+                $("#ulica").text("Ulica: " + json.address.road);
+                ulica = json.address.road;
+                $("#grad").text("Grad: " + json.address.city);
+                grad = json.address.city;
+                $("#drzava").text("Drzava: " + json.address.country);
+                drzava = json.address.country;
+                $("#postanskiBroj").text("Postanski broj: " + json.address.postcode);
+                postanskiBroj = json.address.postcode;
+                //console.log(json.display_name);
+            });
+    }
+
+    map.on('click', function (evt) {
+        var coord = ol.proj.toLonLat(evt.coordinate);
+        geoDuzina = coord[0];
+        geoSirina = coord[1];
+        $("#geoDuz").text("Geografska duzina: (" + geoDuzina + ")");
+        $("#geoSir").text("Geografska sirina: (" + geoSirina + ")");
+        
+        reverseGeocode(coord);
     });
 
 
     $("#btnManif").click(function () {
         var manifTip = document.getElementById("tip");
         var manifTipSelected = manifTip.options[manifTip.selectedIndex].value;
+
+        var posterManif = `/Images/${$('input[type=file]').val().replace(/C:\\fakepath\\/i, '')}`;
 
         $.ajax({
             url: '/manifestacija',
@@ -53,12 +92,31 @@
                 DatumVremeOdrzavanja: $('#datumVremeOdrzavanja').val(),
                 CenaRegularKarte: $('#cenaRegularKarte').val(),
                 Status: $('#status').val(),
-                MestoOdrzavanjaID: $('#mestoOdrzavanjaID').val(),
-                PosterManifestacije: $('#posterManifestacije').val(),
+                PosterManifestacije: posterManif,
+                GeografskaSirina: geoSirina,
+                GeografskaDuzina: geoDuzina,
+                Ulica: ulica,
+                Grad: grad,
+                Drzava: drzava,
+                PostanskiBroj: postanskiBroj,
                 IsDeleted: $('isDeleted').val()
             },
             success: function () {
                 console.log("USPESNA POSLATI PODACI AJAXOM");
+
+                var formData = new FormData();
+                var opmlFile = $('#posterManifestacije')[0];
+                formData.append("opmlFile", opmlFile.files[0]);
+
+                $.ajax({
+                    url: '/upload-slike',
+                    type: 'POST',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                });
+
                 window.location.href = "index.html";
             },
             error: function (jqXHR) {

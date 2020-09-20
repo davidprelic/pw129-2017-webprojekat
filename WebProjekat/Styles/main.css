@@ -1,11 +1,11 @@
 ﻿body {
     padding: 0;
     margin: 0;
-    background: #f2f6e9;
+    background: #b9d7ea;
 }
 /*NAVBAR*/
 .navbar {
-    background: #6ab446;
+    background: #769fcd;
 }
 
 .nav-link,
@@ -28,11 +28,7 @@
 
  /*CONTENT CONTAINER*/
 .header {
-    background-image: url('../Images/landing-page.jpg');
-    background-size: cover;
-    background-position: center;
     position: relative;
-    background-attachment: fixed;
 }
 
 .card-img-top {
@@ -53,7 +49,7 @@ input[type=number] {
 }
 
 .trenutnaManif:hover {
-    background-color: black;
+    background-color: #769fcd;
 }
 
 

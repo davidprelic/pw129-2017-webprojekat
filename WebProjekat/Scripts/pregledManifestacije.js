@@ -9,6 +9,8 @@
             if (data === 'ADMINISTRATOR') {
                 var kartice = '<li class="nav-item"><a class="nav-link" href="korisnici.html"> Pregled korisnika</a></li>';
                 $('#kartice').after(kartice);
+                var kartice = '<li class="nav-item"><a class="nav-link" href="adminKarte.html"> Sve karte</a></li>';
+                $('#kartice').after(kartice);
                 var kartice = '<li class="nav-item"><a class="nav-link" href="kreirajProdavca.html"> Kreiraj prodavca</a></li>';
                 $('#kartice').after(kartice);
                 var kartice = '<li class="nav-item"><a class="nav-link" href="potvrdaManifestacija.html"> Potvrda manifestacija</a></li>';
@@ -19,13 +21,15 @@
                 $('#regLogoutKartica').text('Odjavi se');
             }
             else if (data === 'KUPAC') {
-                var kartice = '<li class="nav-item"><a class="nav-link" href="register.html">Moje karte</a></li>';
+                var kartice = '<li class="nav-item"><a class="nav-link" href="kupacKarte.html">Moje karte</a></li>';
                 $('#kartice').after(kartice);
                 $('#logProfKartica').text('Profil');
                 $('#regLogoutKartica').text('Odjavi se');
             }
             else if (data === 'PRODAVAC') {
                 var kartice = '<li class="nav-item"><a class="nav-link" href="prodavacManifestacije.html"> Moje manifestacije</a></li>';
+                $('#kartice').after(kartice);
+                var kartice = '<li class="nav-item"><a class="nav-link" href="prodavacKarte.html"> Rezervisane karte</a></li>';
                 $('#kartice').after(kartice);
                 var kartice = '<li class="nav-item"><a class="nav-link" href="kreirajManifestaciju.html"> Kreiraj manifestaciju</a></li>';
                 $('#kartice').after(kartice);
@@ -168,6 +172,15 @@
             var datum = new Date(data.DatumVremeOdrzavanja);
             var mesec = datum.getMonth() + 1;
             var tipManif = "";
+            var status = "";
+
+            switch (data.Status) {
+                case 0:
+                    status = "AKTIVNA";
+                    break;
+                case 1:
+                    status = "NEAKTIVNA";
+            }
 
             cenaRegularKarte = data.CenaRegularKarte;
 
@@ -185,22 +198,42 @@
                     tipManif = "SPORT";
             }
 
-            var manif = '<div class="card mb-3">'
-                            + '<div class="row no-gutters">'
-                                + '<div class="col-md-4">'
-                                    + `<img src="${data.PosterManifestacije}" class="card-img" alt="...">`
-                                + '</div>'
-                                + '<div class="col-md-8">'
-                                    + '<div class="card-body">'
-                                        + `<h5 class="card-title">${data.Naziv}</h5>`
-                                        + `<p class="card-text">${tipManif}</p>`
-                                        + '<p class="card-text">' + datum.getDate() + '/' + mesec + '/' + datum.getFullYear() + "</p>"
-                                    + '</div>'
-                                + '</div>'
-                            + '</div>'
-                        + '</div>'
-            $('#prikazManif').append(manif);
+            var map = new ol.Map({
+                target: 'map',
+                layers: [
+                    new ol.layer.Tile({
+                        source: new ol.source.OSM()
+                    })
+                ],
+                view: new ol.View({
+                    center: ol.proj.fromLonLat([data.GeografskaDuzina, data.GeografskaSirina]),
+                    zoom: 14
+                })
+            });
 
+            var manif = '<div class="card mb-3">'
+                + '<div class="row no-gutters">'
+                + '<div class="col-md-4">'
+                + `<img src="${data.PosterManifestacije}" class="card-img" alt="...">`
+                + '</div>'
+                + '<div class="col-md-8 test">'
+                + '<div class="card-body">'
+                + `<h5 class="card-title">${data.Naziv}</h5>`
+                + `<p class="card-text">${tipManif}</p>`
+                + `<p class="card-text">Broj mesta: ${data.BrojMesta}</p>`
+                + `<p class="card-text">Prestali broj karata: regular: ${data.BrojRegularKarata}, fanpit: ${data.BrojFanpitKarata}, vip: ${data.BrojVipKarata}</p>`
+                + '<p class="card-text">Datum odrzavanja: ' + datum.getDate() + '/' + mesec + '/' + datum.getFullYear() + "</p>"
+                + `<p class="card-text">Cena karata: regular: ${data.CenaRegularKarte} rsd, fanpit: ${data.CenaRegularKarte * 2} rsd, vip: ${data.CenaRegularKarte * 4} rsd</p>`
+                + '<p class="card-text">Status: ' + status + '</p>'
+                + `<p class="card-text">Mesto odrzavanja: ${data.Ulica}, ${data.Grad}, ${data.Drzava}, ${data.PostanskiBroj}</p>`;
+            if (data.OcenaManifestacije)
+                manif += '<p class="card-text">Prosecna ocena: ' + data.OcenaManifestacije + "</p>";
+
+                manif += '</div>'
+                + '</div>'
+                + '</div>'
+                + '</div>'
+            $('#prikazManif').append(manif);
 
             $.ajax({
                 url: '/komentari-jedne-manif',

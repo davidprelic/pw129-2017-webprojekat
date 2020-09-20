@@ -1,11 +1,11 @@
 ﻿body {
     padding: 0;
     margin: 0;
-    background: #f2f6e9;
+    background: #b9d7ea;
 }
 /*NAVBAR*/
 .navbar {
-    background: #6ab446;
+    background: #769fcd;
 }
 
 .nav-link,
@@ -28,9 +28,6 @@
 
 /*CONTENT CONTAINER*/
 .header {
-    background-image: url('../Images/landing-page.jpg');
-    background-size: cover;
-    background-position: center;
     position: relative;
 }
 
@@ -47,6 +44,10 @@ table {
 }
 
 .map {
-    height: 400px;
-    width: 100%;
+    height: 300px;
+    width: 300px;
+}
+
+#mesto {
+    display: flex;
 }

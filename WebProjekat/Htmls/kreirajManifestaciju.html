@@ -35,7 +35,7 @@
 
         <h3>Kreiranje manifestacije</h3>
 
-        <form id="kreirajForma">
+        <form id="kreirajForma" enctype="multipart/form-data">
             <table border="1">
                 <tr>
                     <td>Naziv:</td>
@@ -43,7 +43,6 @@
                         <input type="text" id="naziv" name="naziv" />
                         <input id="isDeleted" name="isDeleted" type="hidden" value="False">
                         <input id="status" name="status" type="hidden" value="Neaktivno">
-                        <input id="mestoOdrzavanjaID" name="mestoOdrzavanjaID" type="hidden" value="mestoodrzavanja">
                     </td>
                 </tr>
                 <tr>
@@ -83,7 +82,22 @@
                 </tr>
 
                 <tr>
-                    <td></td>
+                    <td>Mesto odrzavanja:<br>(Klik na lokaciju)</td>
+                    <td>
+                        <div id="mesto">
+                            <div id="map" class="map"></div>
+                            <div id="mestoInfo">
+                                <p id="geoDuz">Geografska duzina: </p>
+                                <p id="geoSir">Geografska sirina: </p>
+                                <br>
+                                <p id="ulica">Ulica: </p>
+                                <p id="grad">Grad: </p>
+                                <p id="drzava">Drzava: </p>
+                                <p id="postanskiBroj">Postanski broj: </p>
+                            </div>
+                        </div>
+                        
+                    </td>
                 </tr>
 
                 <tr>
@@ -97,13 +111,13 @@
 
                 <tr>
                     <td colspan="2">
-                        <input type="button" id="btnManif" value="Kreiraj manifestaciju" />
+                        <input type="button" id="btnManif" value="Kreiraj manifestaciju" class="btn btn-primary" />
                     </td>
                 </tr>
             </table>
         </form>
 
-        <div id="map" class="map"></div>
+        
 
     </header>
 

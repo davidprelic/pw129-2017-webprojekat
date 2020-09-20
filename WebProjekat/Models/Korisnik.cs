@@ -13,7 +13,7 @@ namespace WebProjekat.Models
     {
         public string Id { get; set; }
         [Required]
-        [StringLength(60, MinimumLength = 3)]
+        [StringLength(60, MinimumLength = 4)]
         public string KorisnickoIme { get; set; }
         [Required]
         [StringLength(60, MinimumLength = 8)]

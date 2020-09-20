@@ -32,6 +32,41 @@
 
     <!--CONTENT CONTAINER-->
     <header class="page-header header container-fluid">
+
+        <div class="searchSort">
+            <form onsubmit="return false">
+
+                ime:<input type="text" id="ime" name="ime" size="10" value="" />
+
+                prezime:<input type="text" id="prezime" name="prezime" size="10" value="" />
+
+                korisnicko ime:<input type="text" id="korisnickoIme" name="korisnickoIme" size="10" value="" />
+
+                Sortiraj po:
+                <select id="opcijaSort" name="opcijaSort">
+                    <option>--izaberite opciju--</option>
+                    <option value="poImenuAZ">imenu(A-Z)</option>
+                    <option value="poImenuZA">imenu(Z-A)</option>
+                    <option value="poPrezimenuuAZ">prezimenu(A-Z)</option>
+                    <option value="poPrezimenuZA">prezimenu(Z-A)</option>                    
+                    <option value="poKorImenuAZ">korisnickom imenu(A-Z)</option>
+                    <option value="poKorImenuZA">korisnickom imenu(Z-A)</option>
+                    <option value="poBrojuBodovaRastuce">broju bodova(rastuce)</option>
+                    <option value="poBrojuBodovaOpadajuce">broju bodova(opadajuce)</option>
+                </select>
+
+                Filtriraj po:
+                <select id="opcijaFilter" name="opcijaFilter">
+                    <option>--izaberite opciju--</option>
+                    <option value="poUlozi">ulozi</option>
+                    <option value="poTipu">tipu</option>
+                </select>
+
+                <input type="button" value="Primeni filtere" class="primeniFiltere" />
+
+            </form>
+        </div>
+
         <table id="listaAdmina" class="table table-success table-hover table-sm">
             <caption class="h5 text-dark">Administratori:</caption>
             <thead class="thead-dark">

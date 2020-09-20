@@ -31,6 +31,9 @@ namespace WebProjekat
 
             bPodataka.UcitajKomentare("~/App_Data/komentari.txt");
             HttpContext.Current.Application["Komentari"] = bPodataka.listaKomentara;
+
+            bPodataka.UcitajLokacije("~/App_Data/lokacije.txt");
+            HttpContext.Current.Application["Lokacije"] = bPodataka.listaLokacija;
         }
 
         // Ukljucivanje podrske za Session

@@ -20,12 +20,10 @@ namespace WebProjekat.Models.DTOs
         public Enums.Pol Pol { get; set; }
         [Required]
         public DateTime DatumRodjenja { get; set; }
-        public Enums.Uloga Uloga { get; set; }
-        public bool IsDeleted { get; set; }
 
         public KorisnikProfilDTO() { }
 
-        public KorisnikProfilDTO(string id, string korisnickoIme, string ime, string prezime, Enums.Pol pol, DateTime datumRodjenja, Enums.Uloga uloga, bool isDeleted)
+        public KorisnikProfilDTO(string id, string korisnickoIme, string ime, string prezime, Enums.Pol pol, DateTime datumRodjenja)
         {
             Id = id;
             KorisnickoIme = korisnickoIme;
@@ -33,8 +31,6 @@ namespace WebProjekat.Models.DTOs
             Prezime = prezime;
             Pol = pol;
             DatumRodjenja = datumRodjenja;
-            Uloga = uloga;
-            IsDeleted = isDeleted;
         }
     }
 }

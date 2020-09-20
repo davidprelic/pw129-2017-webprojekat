@@ -58,9 +58,34 @@ namespace WebProjekat.Controllers
                 HttpContext.Current.Session["Korisnik"] = korisnikSesija;
             }
 
-            KorisnikProfilDTO kpdto = new KorisnikProfilDTO(korisnikSesija.Id, korisnikSesija.KorisnickoIme, korisnikSesija.Ime, korisnikSesija.Prezime, korisnikSesija.Pol, korisnikSesija.DatumRodjenja, korisnikSesija.Uloga, korisnikSesija.IsDeleted);
+            if(korisnikSesija.Uloga == Enums.Uloga.KUPAC)
+            {
+                Kupac k = (Kupac)korisnikSesija;
+                KupacProfilDTO kupacdto = new KupacProfilDTO(korisnikSesija.Id, korisnikSesija.KorisnickoIme, korisnikSesija.Ime, korisnikSesija.Prezime, korisnikSesija.Pol, korisnikSesija.DatumRodjenja, k.BrojSakupljenihBodova, k.TipKorisn ,korisnikSesija.Uloga, korisnikSesija.IsDeleted);
+                return Ok(kupacdto);
+            }
+            
+            KorisnikProfilDTO kpdto = new KorisnikProfilDTO(korisnikSesija.Id, korisnikSesija.KorisnickoIme, korisnikSesija.Ime, korisnikSesija.Prezime, korisnikSesija.Pol, korisnikSesija.DatumRodjenja);
 
             return Ok(kpdto);
+        }
+
+        [HttpGet]
+        [Route("korisnik/{id}")]
+        public IHttpActionResult PrikaziKupcaKarte(string id)
+        {
+            Korisnik korisnikSesija = (Korisnik)HttpContext.Current.Session["Korisnik"];
+            if (korisnikSesija == null)
+            {
+                korisnikSesija = new Korisnik();
+                HttpContext.Current.Session["Korisnik"] = korisnikSesija;
+            }
+
+            bp.listaKorisnika = (Dictionary<string, Korisnik>)HttpContext.Current.Application["Korisnici"];
+            Kupac k = (Kupac)bp.listaKorisnika[id];
+            
+            KupacProfilDTO kupacdto = new KupacProfilDTO(k.Id, k.KorisnickoIme, k.Ime, k.Prezime, k.Pol, k.DatumRodjenja, k.BrojSakupljenihBodova, k.TipKorisn, korisnikSesija.Uloga, korisnikSesija.IsDeleted);
+            return Ok(kupacdto);
         }
 
         [HttpGet]
@@ -89,6 +114,8 @@ namespace WebProjekat.Controllers
                 bp.listaKorisnika[kpdto.Id].KorisnickoIme = kpdto.KorisnickoIme;
                 bp.listaKorisnika[kpdto.Id].Ime = kpdto.Ime;
                 bp.listaKorisnika[kpdto.Id].Prezime = kpdto.Prezime;
+                bp.listaKorisnika[kpdto.Id].Pol = kpdto.Pol;
+                bp.listaKorisnika[kpdto.Id].DatumRodjenja = kpdto.DatumRodjenja;
                 bp.AzurirajKorisnike();
                 return Ok();
             }
@@ -135,6 +162,46 @@ namespace WebProjekat.Controllers
 
             return Ok(kid);
         }
+
+        [HttpGet]
+        [Route("filter-korisnici")]
+        public IHttpActionResult PretragaSortFilter(string ime, string prezime, string korisnickoIme, string opcijaSort, string opcijaFilter)
+        {
+            bp.listaKorisnika = (Dictionary<string, Korisnik>)HttpContext.Current.Application["Korisnici"];
+
+            List<Korisnik> filter = new List<Korisnik>();
+
+            foreach (string key in bp.listaKorisnika.Keys)
+            {
+                string imePar = (ime == null) ? "" : ime;
+                string prezimePar = (prezime == null) ? "" : prezime;
+                string korImePar = (korisnickoIme == null) ? "" : korisnickoIme;
+
+                //if (proizvodi.list[key].RaspolozivaKolicina != 0 && proizvodi.list[key].Naziv.Equals(naziv))
+                if (bp.listaKorisnika[key].Ime.Contains(imePar) && bp.listaKorisnika[key].Prezime.Contains(prezimePar) && bp.listaKorisnika[key].KorisnickoIme.Contains(korImePar))
+                {
+                    filter.Add(bp.listaKorisnika[key]);
+                }
+            }
+
+            if (opcijaSort == "poImenuAZ")
+                filter = filter.OrderBy(p => p.Ime).ToList();
+            else if (opcijaSort == "poImenuZA")
+                filter = filter.OrderByDescending(p => p.Ime).ToList();
+            else if (opcijaSort == "poPrezimenuAZ")
+                filter = filter.OrderBy(p => p.Prezime).ToList();
+            else if (opcijaSort == "poPrezimenuZA")
+                filter = filter.OrderByDescending(p => p.Prezime).ToList();
+            else if (opcijaSort == "poKorImenuAZ")
+                filter = filter.OrderBy(p => p.KorisnickoIme).ToList();
+            else if (opcijaSort == "poKorImenuZA")
+                filter = filter.OrderByDescending(p => p.KorisnickoIme).ToList();
+
+            // DODATI JOS ZA FILTRIRANJE 
+
+            return Ok(filter);
+        }
+
 
     }
 }

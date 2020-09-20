@@ -16,13 +16,19 @@ namespace WebProjekat.Models.DTOs
         public DateTime DatumVremeOdrzavanja { get; set; }
         public decimal CenaRegularKarte { get; set; }
         public Enums.StatusManifestacije Status { get; set; }
-        public string MestoOdrzavanjaID { get; set; }
+        public string GeografskaSirina { get; set; }
+        public string GeografskaDuzina { get; set; }
+        public string Ulica { get; set; }
+        public string Grad { get; set; }
+        public string Drzava { get; set; }
+        public string PostanskiBroj { get; set; }
+        public int OcenaManifestacije { get; set; }
         public string PosterManifestacije { get; set; } // SLIKA
         public bool IsDeleted { get; set; }
 
         public ManifestacijaDTO() { }
 
-        public ManifestacijaDTO(string naziv, Enums.TipManifestacije tip, int brojMesta, int brojRegularKarata, int brojVipKarata, int brojFanpitKarata, DateTime datumVremeOdrzavanja, decimal cenaRegularKarte, Enums.StatusManifestacije status, string mestoOdrzavanjaID, string posterManifestacije, bool isDeleted)
+        public ManifestacijaDTO(string naziv, Enums.TipManifestacije tip, int brojMesta, int brojRegularKarata, int brojVipKarata, int brojFanpitKarata, DateTime datumVremeOdrzavanja, decimal cenaRegularKarte, Enums.StatusManifestacije status, string geografskaSirina, string geografskaDuzina, string ulica, string grad, string drzava, string postanskiBroj, int ocenaManifestacije, string posterManifestacije, bool isDeleted)
         {
             Naziv = naziv;
             Tip = tip;
@@ -33,7 +39,13 @@ namespace WebProjekat.Models.DTOs
             DatumVremeOdrzavanja = datumVremeOdrzavanja;
             CenaRegularKarte = cenaRegularKarte;
             Status = status;
-            MestoOdrzavanjaID = mestoOdrzavanjaID;
+            GeografskaSirina = geografskaSirina;
+            GeografskaDuzina = geografskaDuzina;
+            Ulica = ulica;
+            Grad = grad;
+            Drzava = drzava;
+            PostanskiBroj = postanskiBroj;
+            OcenaManifestacije = ocenaManifestacije;
             PosterManifestacije = posterManifestacije;
             IsDeleted = isDeleted;
         }

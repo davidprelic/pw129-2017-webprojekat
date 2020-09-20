@@ -12,6 +12,8 @@
             else {
                 var kartice = '<li class="nav-item"><a class="nav-link" href="prodavacManifestacije.html"> Moje manifestacije</a></li>';
                 $('#kartice').after(kartice);
+                var kartice = '<li class="nav-item"><a class="nav-link" href="prodavacKarte.html"> Rezervisane karte</a></li>';
+                $('#kartice').after(kartice);
                 var kartice = '<li class="nav-item"><a class="nav-link" href="kreirajManifestaciju.html"> Kreiraj manifestaciju</a></li>';
                 $('#kartice').after(kartice);
                 var kartice = '<li class="nav-item"><a class="nav-link" href="komentari.html"> Prikaz komentara</a></li>';
@@ -53,13 +55,14 @@
                         tipManif = "SPORT";
                 }
 
-                var eachManif = `<div class="col-sm-3 trenutnaManif" data-id="${data[i].Id}" onclick="prikaziManif(this)">`
+                var eachManif = `<div class="col-sm-3 trenutnaManif">`
                     + '<div class="card text-center border-success">'
                     + '<div class="card-header">' + tipManif + '</div>'
                     + '<div class="card-body">'
-                    + `<img class="card-img-top" src="${data[i].PosterManifestacije}">`
+                    + `<img class="card-img-top" src="${data[i].PosterManifestacije}" data-id="${data[i].Id}" onclick="prikaziManif(this)">`
                     + '<h5 class="card-title">' + data[i].Naziv + "</h5>"
                     + '<p class="card-text">' + datum.getDate() + '/' + mesec + '/' + datum.getFullYear() + "</p>"
+                    + `<button type="button" class="izmeniManif btn btn-primary" data-id="${data[i].Id}" onclick="izmeniManif(this)">Izmeni manifestaciju</button>`
                     + '</div>'
                     + '</div>'
                     + "</div>";
@@ -84,4 +87,8 @@
 
 function prikaziManif(jednaManif) {
     window.location = "pregledManifestacije.html" + `?id=${$(jednaManif).attr("data-id")}`;
+}
+
+function izmeniManif(jednaManif) {
+    window.location = "izmeniManifestaciju.html" + `?id=${$(jednaManif).attr("data-id")}`;
 }
