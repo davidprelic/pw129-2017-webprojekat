@@ -35,7 +35,7 @@ namespace WebProjekat.Models
                 if(tokens[7] == Enums.Uloga.PRODAVAC.ToString())
                     k = new Prodavac(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], tokens[7], tokens[8], tokens[9]);
                 else if (tokens[7] == Enums.Uloga.KUPAC.ToString())
-                    k = new Kupac(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], tokens[7], tokens[8], tokens[9], tokens[10], tokens[11]);
+                    k = new Kupac(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], tokens[7], tokens[8], tokens[9], tokens[10], tokens[11], tokens[12]);
                 else
                     k = new Korisnik(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], tokens[7], tokens[8]);
 
@@ -81,7 +81,7 @@ namespace WebProjekat.Models
                 // PRAVILNO ISPARSIRATI SVA POLJA IZ TEKSTUALNE DATOTEKE
 
                 string[] tokens = line.Split(';');
-                k = new Karta(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], tokens[7]);
+                k = new Karta(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], tokens[7], tokens[8]);
 
                 listaKarata.Add(k.Id, k);
             }

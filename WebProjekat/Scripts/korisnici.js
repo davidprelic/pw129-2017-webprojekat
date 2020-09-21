@@ -73,7 +73,6 @@
                         var mesec = datum.getMonth() + 1;
                         var eachrow = "<tr>"
                             + "<td>" + data[i].KorisnickoIme + "</td>"
-                            + "<td>" + data[i].Lozinka + "</td>"
                             + "<td>" + data[i].Ime + "</td>"
                             + "<td>" + data[i].Prezime + "</td>"
                             + "<td>" + (data[i].Pol ? 'Zensko' : 'Musko') + "</td>"
@@ -87,12 +86,10 @@
                         var mesec = datum.getMonth() + 1;
                         var eachrow = "<tr>"
                             + "<td>" + data[i].KorisnickoIme + "</td>"
-                            + "<td>" + data[i].Lozinka + "</td>"
                             + "<td>" + data[i].Ime + "</td>"
                             + "<td>" + data[i].Prezime + "</td>"
                             + "<td>" + (data[i].Pol ? 'Zensko' : 'Musko') + "</td>"
                             + "<td>" + datum.getDate() + '/' + mesec + '/' + datum.getFullYear() + "</td>"
-                            + "<td>" + '<button class="prikazDugme">Blokiraj</button>' + "</td>"
                             + `<td><button type="button" id="obrisiKorisnika" class="btn btn-primary" data-id="${data[i].Id}">Obrisi (blokiraj) korisnika</button></td>`
                             + "</tr>";
                         $('#tbodyProdavac').append(eachrow);
@@ -115,16 +112,17 @@
                         var mesec = datum.getMonth() + 1;
                         var eachrow = "<tr>"
                             + "<td>" + data[i].KorisnickoIme + "</td>"
-                            + "<td>" + data[i].Lozinka + "</td>"
                             + "<td>" + data[i].Ime + "</td>"
                             + "<td>" + data[i].Prezime + "</td>"
                             + "<td>" + (data[i].Pol ? 'Zensko' : 'Musko') + "</td>"
                             + "<td>" + datum.getDate() + '/' + mesec + '/' + datum.getFullYear() + "</td>"
                             + "<td>" + data[i].BrojSakupljenihBodova + "</td>"
                             + "<td>" + tipKor + "</td>"
-                            + `<td><button type="button" id="obrisiKorisnika" class="btn btn-primary" data-id="${data[i].Id}">Obrisi (blokiraj) korisnika</button></td>`
-                            + "<td>" + '<button class="prikazDugme">Blokiraj</button>' + "</td>"
-                            + "</tr>";
+                            + `<td><button type="button" id="obrisiKorisnika" class="btn btn-primary" data-id="${data[i].Id}">Obrisi (blokiraj) korisnika</button></td>`;
+                        if (data[i].SumnjivKupac)
+                            eachrow += "<td>" + '<button class="btn btn-danger">Sumnjiv kupac</button>' + "</td>";
+
+                        eachrow += "</tr>";
                         $('#tbodyKupac').append(eachrow);
                     }
                 }
@@ -159,7 +157,6 @@
                     var mesec = datum.getMonth() + 1;
                     var eachrow = "<tr>"
                         + "<td>" + korisnici[i].KorisnickoIme + "</td>"
-                        + "<td>" + korisnici[i].Lozinka + "</td>"
                         + "<td>" + korisnici[i].Ime + "</td>"
                         + "<td>" + korisnici[i].Prezime + "</td>"
                         + "<td>" + (korisnici[i].Pol ? 'Zensko' : 'Musko') + "</td>"
@@ -173,13 +170,11 @@
                     var mesec = datum.getMonth() + 1;
                     var eachrow = "<tr>"
                         + "<td>" + korisnici[i].KorisnickoIme + "</td>"
-                        + "<td>" + korisnici[i].Lozinka + "</td>"
                         + "<td>" + korisnici[i].Ime + "</td>"
                         + "<td>" + korisnici[i].Prezime + "</td>"
                         + "<td>" + (korisnici[i].Pol ? 'Zensko' : 'Musko') + "</td>"
                         + "<td>" + datum.getDate() + '/' + mesec + '/' + datum.getFullYear() + "</td>"
                         + `<td><button type="button" id="obrisiKorisnika" class="btn btn-primary" data-id="${korisnici[i].Id}">Obrisi (blokiraj) korisnika</button></td>`
-                        + "<td>" + '<button class="prikazDugme">Blokiraj</button>' + "</td>"
                         + "</tr>";
                     $('#tbodyProdavac').append(eachrow);
                 }
@@ -207,18 +202,20 @@
 
                                 var datum = new Date(kupci[i].DatumRodjenja);
                                 var mesec = datum.getMonth() + 1;
-                                var eachrow = "<tr>"
-                                    + "<td>" + kupci[i].KorisnickoIme + "</td>"
-                                    + "<td>" + kupci[i].Lozinka + "</td>"
-                                    + "<td>" + kupci[i].Ime + "</td>"
-                                    + "<td>" + kupci[i].Prezime + "</td>"
-                                    + "<td>" + (kupci[i].Pol ? 'Zensko' : 'Musko') + "</td>"
-                                    + "<td>" + datum.getDate() + '/' + mesec + '/' + datum.getFullYear() + "</td>"
-                                    + "<td>" + kupci[i].BrojSakupljenihBodova + "</td>"
-                                    + "<td>" + tipKor + "</td>"
-                                    + `<td><button type="button" id="obrisiKorisnika" class="btn btn-primary" data-id="${kupci[i].Id}">Obrisi (blokiraj) korisnika</button></td>`
-                                    + "<td>" + '<button class="prikazDugme">Blokiraj</button>' + "</td>"
-                                    + "</tr>";
+                            var eachrow = "<tr>"
+                                + "<td>" + kupci[i].KorisnickoIme + "</td>"
+                                + "<td>" + kupci[i].Ime + "</td>"
+                                + "<td>" + kupci[i].Prezime + "</td>"
+                                + "<td>" + (kupci[i].Pol ? 'Zensko' : 'Musko') + "</td>"
+                                + "<td>" + datum.getDate() + '/' + mesec + '/' + datum.getFullYear() + "</td>"
+                                + "<td>" + kupci[i].BrojSakupljenihBodova + "</td>"
+                                + "<td>" + tipKor + "</td>"
+                                + `<td><button type="button" id="obrisiKorisnika" class="btn btn-primary" data-id="${kupci[i].Id}">Obrisi (blokiraj) korisnika</button></td>`;
+
+                            if (kupci[i].SumnjivKupac)
+                                eachrow += "<td>" + '<button class="btn btn-danger">Sumnjiv kupac</button>' + "</td>";
+
+                            eachrow += "</tr>";
                                 $('#tbodyKupac').append(eachrow);
                         }
                     }

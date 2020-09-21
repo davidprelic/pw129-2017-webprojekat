@@ -17,11 +17,12 @@ namespace WebProjekat.Models
         public string KupacID { get; set; }
         public Enums.StatusKarte Status { get; set; }
         public Enums.TipKarte Tip { get; set; }
+        public DateTime DatumOdustanka { get; set; }
         public bool IsDeleted { get; set; }
 
         public Karta() { }
 
-        public Karta(string id, string manifestacijaID, string datumVremeManifestacije, string cena, string kupacID, string status, string tip, string isDeleted)
+        public Karta(string id, string manifestacijaID, string datumVremeManifestacije, string cena, string kupacID, string status, string tip, string datumOdustanka, string isDeleted)
         {
             Id = id;
             ManifestacijaID = manifestacijaID;
@@ -34,6 +35,7 @@ namespace WebProjekat.Models
             Enums.TipKarte tk;
             Enum.TryParse(tip, out tk);
             Tip = tk;
+            DatumOdustanka = DateTime.ParseExact(datumOdustanka, "d/M/yyyy", CultureInfo.InvariantCulture);
             IsDeleted = bool.Parse(isDeleted);
         }
 
@@ -43,7 +45,11 @@ namespace WebProjekat.Models
             var date = dt.Date;
             string datumString = dt.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
 
-            return $"{Id};{ManifestacijaID};{datumString};{Cena.ToString()};{KupacID};{Status.ToString()};{Tip.ToString()};{IsDeleted.ToString()}";
+            DateTime dt2 = DateTime.ParseExact(DatumOdustanka.ToString(), "M/d/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
+            var date2 = dt.Date;
+            string datumString2 = dt2.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+            return $"{Id};{ManifestacijaID};{datumString};{Cena.ToString()};{KupacID};{Status.ToString()};{Tip.ToString()};{datumString2};{IsDeleted.ToString()}";
         }
 
         public string SacuvajKartu()

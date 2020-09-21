@@ -160,7 +160,9 @@
     <Compile Include="Models\DTOs\GenerisanjeKarataDTO.cs" />
     <Compile Include="Models\DTOs\IzmenaManifestacijeDTO.cs" />
     <Compile Include="Models\DTOs\KomentarDTO.cs" />
+    <Compile Include="Models\DTOs\KorisnikBezLozinkeDTO.cs" />
     <Compile Include="Models\DTOs\KorisnikProfilDTO.cs" />
+    <Compile Include="Models\DTOs\KupacBezLozinkeDTO.cs" />
     <Compile Include="Models\DTOs\KupacIdPopustDTO.cs" />
     <Compile Include="Models\DTOs\KupacKarteDTO.cs" />
     <Compile Include="Models\DTOs\KupacPosedujeKartuDTO.cs" />

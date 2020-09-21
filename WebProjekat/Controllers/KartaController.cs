@@ -47,7 +47,7 @@ namespace WebProjekat.Controllers
                 guid = Guid.NewGuid();
                 idKarte = guid.ToString();
 
-                Karta k = new Karta(idKarte, gdto.ManifestacijaID, datumString, gdto.Cena.ToString(), gdto.KupacID, Enums.StatusKarte.REZERVISANA.ToString(), gdto.Tip.ToString(), "False");
+                Karta k = new Karta(idKarte, gdto.ManifestacijaID, datumString, gdto.Cena.ToString(), gdto.KupacID, Enums.StatusKarte.REZERVISANA.ToString(), gdto.Tip.ToString(), "01/01/2001", "False");
                 bp.listaKarata.Add(k.Id, k);
                 k.SacuvajKartu();
 
@@ -248,9 +248,32 @@ namespace WebProjekat.Controllers
             {
                 Kupac k = (Kupac)korisnikSesija;
                 bp.listaKarata[id].Status = Enums.StatusKarte.ODUSTANAK;
+                bp.listaKarata[id].DatumOdustanka = DateTime.Today;
                 bp.AzurirajKarte();
 
+                int brojac = 0;
+
+                foreach (var item in bp.listaKarata.Values)
+                {
+                    DateTime startDate = bp.listaKarata[id].DatumOdustanka;
+                    DateTime expiryDate = startDate.AddDays(-30);
+                    DateTime datumKarte = DateTime.Parse("01/01/2001");
+
+                    if (item.KupacID == korisnikSesija.Id)
+                    {
+                        if(item.DatumOdustanka != datumKarte && item.DatumOdustanka >= expiryDate && item.DatumOdustanka <= startDate)
+                            brojac++;
+                    }
+                }
+
+                if(brojac > 5)
+                    k.SumnjivKupac = bool.Parse("True");
+
+
                 k.BrojSakupljenihBodova -= (decimal.ToDouble(bp.listaKarata[id].Cena) / 1000 * 133 * 4);
+
+                if (k.BrojSakupljenihBodova < 0)
+                    k.BrojSakupljenihBodova = 0;
 
                 if (k.BrojSakupljenihBodova >= k.TipKorisn.PotrebanBrojBodovaZlato)
                 {

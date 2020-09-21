@@ -54,3 +54,8 @@ textarea {
     display: flex;
 }
 
+caption {
+    caption-side: top;
+    color: black;
+}
+

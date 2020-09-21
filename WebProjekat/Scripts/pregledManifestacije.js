@@ -248,8 +248,9 @@
                     var ocenaManif = "";
                     var komentar = "";
 
-                    if (komentar.length > 0) {
-                        komentar = '<thead>'
+                    if (komentari.length > 0) {
+                        komentar = '<caption class="h5 text-dark">Komentari:</caption>'
+                            + '<thead>'
                             + '<tr>'
                             + '<th scope="col">Kupac</th>'
                             + '<th scope="col">Komentar</th>'

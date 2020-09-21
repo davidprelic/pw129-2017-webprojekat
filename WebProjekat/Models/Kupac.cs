@@ -13,10 +13,11 @@ namespace WebProjekat.Models
         public List<string> SveMojeKarteBezObziraNaStatus { get; set; }
         public double BrojSakupljenihBodova { get; set; }
         public TipKorisnika TipKorisn { get; set; }
+        public bool SumnjivKupac { get; set; }
 
         public Kupac() { }
 
-        public Kupac(string id, string korisnickoIme, string lozinka, string ime, string prezime, string pol, string datumRodjenja, string uloga, string sveMojeKarteBezObziraNaStatus, string brojSakupljenihBodova, string tipKorisnika, string isDeleted)
+        public Kupac(string id, string korisnickoIme, string lozinka, string ime, string prezime, string pol, string datumRodjenja, string uloga, string sveMojeKarteBezObziraNaStatus, string brojSakupljenihBodova, string tipKorisnika, string sumnjivKupac,string isDeleted)
         {
             Id = id;
             KorisnickoIme = korisnickoIme;
@@ -50,6 +51,8 @@ namespace WebProjekat.Models
             //PROVERITI DA LI MOZE OVAKO, i DA LI MI TREBA TIP KORISN KAO PARAMETAR KONSTRUKTORA
             TipKorisn = new TipKorisnika();
 
+            SumnjivKupac = bool.Parse(sumnjivKupac);
+
             IsDeleted = bool.Parse(isDeleted);
         }
 
@@ -66,7 +69,7 @@ namespace WebProjekat.Models
                 ret += $"{item},";
             }
             ret = ret.Remove(ret.Length - 1);
-            ret += $"|;{BrojSakupljenihBodova.ToString()};{TipKorisn.ImeTipa.ToString()};{IsDeleted}";
+            ret += $"|;{BrojSakupljenihBodova.ToString()};{TipKorisn.ImeTipa.ToString()};{SumnjivKupac.ToString()};{IsDeleted}";
 
             return ret;
         }

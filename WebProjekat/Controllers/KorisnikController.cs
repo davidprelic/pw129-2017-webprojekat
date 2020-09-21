@@ -37,7 +37,7 @@ namespace WebProjekat.Controllers
             var date = dt.Date;
             string datumString = dt.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
 
-            Kupac k = new Kupac(strId, kdto.KorisnickoIme, kdto.Lozinka, kdto.Ime, kdto.Prezime, kdto.Pol.ToString(), datumString, kdto.Uloga.ToString(), "", kdto.BrojSakupljenihBodova.ToString(), "", kdto.IsDeleted.ToString());
+            Kupac k = new Kupac(strId, kdto.KorisnickoIme, kdto.Lozinka, kdto.Ime, kdto.Prezime, kdto.Pol.ToString(), datumString, kdto.Uloga.ToString(), "", kdto.BrojSakupljenihBodova.ToString(), "", "False", kdto.IsDeleted.ToString());
             TipKorisnika tk = new TipKorisnika();
             k.TipKorisn = tk;
 
@@ -98,11 +98,11 @@ namespace WebProjekat.Controllers
         public IHttpActionResult PribaviProdavceAdmine()
         {
             bp.listaKorisnika = (Dictionary<string, Korisnik>)HttpContext.Current.Application["Korisnici"];
-            List<Korisnik> adminProdavac = new List<Korisnik>();
+            List<KorisnikBezLozinkeDTO> adminProdavac = new List<KorisnikBezLozinkeDTO>();
             foreach (var item in bp.listaKorisnika.Values)
             {
                 if ((item.Uloga == Enums.Uloga.ADMINISTRATOR || item.Uloga == Enums.Uloga.PRODAVAC) && !item.IsDeleted)
-                    adminProdavac.Add(item);
+                    adminProdavac.Add(new KorisnikBezLozinkeDTO(item.Id, item.KorisnickoIme, item.Ime, item.Prezime, item.Pol, item.DatumRodjenja, item.Uloga, item.IsDeleted));
             }
             string json = JsonConvert.SerializeObject(adminProdavac);
             return Ok(json);
@@ -113,11 +113,16 @@ namespace WebProjekat.Controllers
         public IHttpActionResult PribaviKupce()
         {
             bp.listaKorisnika = (Dictionary<string, Korisnik>)HttpContext.Current.Application["Korisnici"];
-            List<Kupac> kupci = new List<Kupac>();
+            List<KupacBezLozinkeDTO> kupci = new List<KupacBezLozinkeDTO>();
+            Kupac k;
             foreach (var item in bp.listaKorisnika.Values)
             {
                 if (item.Uloga == Enums.Uloga.KUPAC && !item.IsDeleted)
-                    kupci.Add((Kupac)item);
+                {
+                    k = (Kupac)item;
+                    kupci.Add(new KupacBezLozinkeDTO(k.Id, k.KorisnickoIme, k.Ime, k.Prezime, k.Pol, k.DatumRodjenja, k.Uloga, k.IsDeleted, k.SveMojeKarteBezObziraNaStatus, k.BrojSakupljenihBodova, k.TipKorisn, k.SumnjivKupac));
+                }
+                    
             }
             string json = JsonConvert.SerializeObject(kupci);
             return Ok(json);
