@@ -105,7 +105,7 @@
                     + '<table border="1">'
                     + "<tr>"
                     + "<td>" + "Korisnicko ime:" + "</td>"
-                    + "<td>" + `<input type="text" id="korIme" name="korisnickoime" value="${data.KorisnickoIme}" />` + "</td>"
+                    + "<td>" + `<input type="text" id="korIme" name="korisnickoime" value="${data.KorisnickoIme}" disabled />` + "</td>"
                     + "</tr>"
                     + "<tr>"
                     + "<td>" + "Ime:" + "</td>"

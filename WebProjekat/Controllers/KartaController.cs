@@ -27,6 +27,7 @@ namespace WebProjekat.Controllers
 
             //BazaPodataka bp = new BazaPodataka();
             bp.listaKarata = (Dictionary<string, Karta>)HttpContext.Current.Application["Karte"];
+            bp.listaManifestacija = (Dictionary<string, Manifestacija>)HttpContext.Current.Application["Manifestacije"];
 
             Guid guid = Guid.NewGuid();
             string idKarte;
@@ -50,6 +51,23 @@ namespace WebProjekat.Controllers
                 bp.listaKarata.Add(k.Id, k);
                 k.SacuvajKartu();
 
+                if(gdto.Tip == Enums.TipKarte.REGULAR)
+                {
+                    bp.listaManifestacija[gdto.ManifestacijaID].BrojRegularKarata--;
+                    bp.AzurirajManifestacije();
+                }
+                else if (gdto.Tip == Enums.TipKarte.VIP)
+                {
+                    bp.listaManifestacija[gdto.ManifestacijaID].BrojVipKarata--;
+                    bp.AzurirajManifestacije();
+                }
+                else if (gdto.Tip == Enums.TipKarte.FANPIT)
+                {
+                    bp.listaManifestacija[gdto.ManifestacijaID].BrojFanpitKarata--;
+                    bp.AzurirajManifestacije();
+                }
+
+
                 kup.SveMojeKarteBezObziraNaStatus.Add(idKarte);
 
                 kup.BrojSakupljenihBodova += gdto.BrojDodatnihBodova;
@@ -63,6 +81,11 @@ namespace WebProjekat.Controllers
                 {
                     kup.TipKorisn.ImeTipa = Enums.TipKorisnika.SREBRNI;
                     kup.TipKorisn.Popust = 10;
+                }
+                else
+                {
+                    kup.TipKorisn.ImeTipa = Enums.TipKorisnika.BRONZANI;
+                    kup.TipKorisn.Popust = 5;
                 }
 
                 bp.AzurirajKorisnike();
@@ -97,7 +120,7 @@ namespace WebProjekat.Controllers
 
                 foreach (var item in k.SveMojeKarteBezObziraNaStatus)
                 {
-                    if (bp.listaKarata[item].ManifestacijaID == id && bp.listaKarata[item].Status == Enums.StatusKarte.REZERVISANA)
+                    if (bp.listaKarata[item].ManifestacijaID == id && bp.listaKarata[item].Status == Enums.StatusKarte.REZERVISANA && !bp.listaKarata[item].IsDeleted)
                     {
                         kpk.KorisnikPosedujeKartuManifestacije = true;
                         return Ok(kpk);
@@ -134,7 +157,7 @@ namespace WebProjekat.Controllers
 
                 foreach (var item in bp.listaKarata.Values)
                 {
-                    if (p.SveMojeManifestacije.Contains(item.ManifestacijaID) && item.Status == Enums.StatusKarte.REZERVISANA)
+                    if (p.SveMojeManifestacije.Contains(item.ManifestacijaID) && item.Status == Enums.StatusKarte.REZERVISANA && !item.IsDeleted)
                         pomocnaLista.Add(new RezKarteProdavacDTO(item.Id, item.ManifestacijaID, bp.listaManifestacija[item.ManifestacijaID].Naziv, item.DatumVremeManifestacije, item.Cena, item.KupacID, bp.listaKorisnika[item.KupacID].KorisnickoIme, item.Tip, item.IsDeleted));
                 }
             }
@@ -163,7 +186,8 @@ namespace WebProjekat.Controllers
             {
                 foreach (var item in bp.listaKarata.Values)
                 {
-                    pomocnaLista.Add(new KupacKarteDTO(item.Id, item.ManifestacijaID, bp.listaManifestacija[item.ManifestacijaID].Naziv, item.DatumVremeManifestacije, item.Cena, item.KupacID, bp.listaKorisnika[item.KupacID].KorisnickoIme, item.Tip, item.Status, item.IsDeleted));
+                    if(!item.IsDeleted)
+                        pomocnaLista.Add(new KupacKarteDTO(item.Id, item.ManifestacijaID, bp.listaManifestacija[item.ManifestacijaID].Naziv, item.DatumVremeManifestacije, item.Cena, item.KupacID, bp.listaKorisnika[item.KupacID].KorisnickoIme, item.Tip, item.Status, item.IsDeleted));
                 }
             }
 
@@ -196,13 +220,58 @@ namespace WebProjekat.Controllers
 
                 foreach (var item in bp.listaKarata.Values)
                 {
-                    if (k.SveMojeKarteBezObziraNaStatus.Contains(item.Id))
+                    if (k.SveMojeKarteBezObziraNaStatus.Contains(item.Id) && !item.IsDeleted)
                         pomocnaLista.Add(new KupacKarteDTO(item.Id, item.ManifestacijaID, bp.listaManifestacija[item.ManifestacijaID].Naziv, item.DatumVremeManifestacije, item.Cena, item.KupacID, bp.listaKorisnika[item.KupacID].KorisnickoIme, item.Tip, item.Status, item.IsDeleted));
 
                 }
             }
 
             return Ok(pomocnaLista);
+        }
+
+        [HttpGet]
+        [Route("odustani-od-karte")]
+        public IHttpActionResult OdustaniOdKarte(string id)
+        {
+            bp.listaManifestacija = (Dictionary<string, Manifestacija>)HttpContext.Current.Application["Manifestacije"];
+            bp.listaKorisnika = (Dictionary<string, Korisnik>)HttpContext.Current.Application["Korisnici"];
+            bp.listaKarata = (Dictionary<string, Karta>)HttpContext.Current.Application["Karte"];
+
+            Korisnik korisnikSesija = (Korisnik)HttpContext.Current.Session["Korisnik"];
+            if (korisnikSesija == null)
+            {
+                korisnikSesija = new Korisnik();
+                HttpContext.Current.Session["Korisnik"] = korisnikSesija;
+            }
+
+            if(korisnikSesija.Uloga == Enums.Uloga.KUPAC)
+            {
+                Kupac k = (Kupac)korisnikSesija;
+                bp.listaKarata[id].Status = Enums.StatusKarte.ODUSTANAK;
+                bp.AzurirajKarte();
+
+                k.BrojSakupljenihBodova -= (decimal.ToDouble(bp.listaKarata[id].Cena) / 1000 * 133 * 4);
+
+                if (k.BrojSakupljenihBodova >= k.TipKorisn.PotrebanBrojBodovaZlato)
+                {
+                    k.TipKorisn.ImeTipa = Enums.TipKorisnika.ZLATNI;
+                    k.TipKorisn.Popust = 20;
+                }
+                else if (k.BrojSakupljenihBodova >= k.TipKorisn.PotrebanBrojBodovaSrebro)
+                {
+                    k.TipKorisn.ImeTipa = Enums.TipKorisnika.SREBRNI;
+                    k.TipKorisn.Popust = 10;
+                }
+                else
+                {
+                    k.TipKorisn.ImeTipa = Enums.TipKorisnika.BRONZANI;
+                    k.TipKorisn.Popust = 5;
+                }
+
+                bp.AzurirajKorisnike();
+            }
+
+            return Ok();
         }
 
         [HttpGet]
@@ -234,7 +303,7 @@ namespace WebProjekat.Controllers
 
                 foreach (var mojaKarta in k.SveMojeKarteBezObziraNaStatus)
                 {
-                    if(mojaKarta == item.Id)
+                    if(mojaKarta == item.Id && !item.IsDeleted)
                     {
                         if (bp.listaManifestacija[bp.listaKarata[mojaKarta].ManifestacijaID].Naziv.Contains(manifestacijaPar))
                         {
@@ -363,6 +432,30 @@ namespace WebProjekat.Controllers
             }
 
             return Ok(cenaFilter);
+        }
+
+        [HttpDelete]
+        [Route("obrisi-kartu")]
+        public IHttpActionResult ObrisiKartu(string id)
+        {
+            bp.listaManifestacija = (Dictionary<string, Manifestacija>)HttpContext.Current.Application["Manifestacije"];
+            bp.listaKorisnika = (Dictionary<string, Korisnik>)HttpContext.Current.Application["Korisnici"];
+            bp.listaKarata = (Dictionary<string, Karta>)HttpContext.Current.Application["Karte"];
+
+            Korisnik korisnikSesija = (Korisnik)HttpContext.Current.Session["Korisnik"];
+            if (korisnikSesija == null)
+            {
+                korisnikSesija = new Korisnik();
+                HttpContext.Current.Session["Korisnik"] = korisnikSesija;
+            }
+
+            if (korisnikSesija.Uloga == Enums.Uloga.ADMINISTRATOR)
+            {
+                bp.listaKarata[id].IsDeleted = bool.Parse("True");
+                bp.AzurirajKarte();
+            }
+
+            return Ok();
         }
 
     }

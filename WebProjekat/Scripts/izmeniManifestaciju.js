@@ -132,26 +132,45 @@
 
 function izmeniManifestaciju(manif) {
     $(document).on('click', '.sacuvajIzmene', function () {
-        $.ajax({
-            url: '/manifestacije',
-            method: 'PUT',
-            data: {
-                Id: $(manif).attr("data-id"),
-                Naziv: $('#naziv').val(),
-                BrojMesta: $('#brojMesta').val(),
-                BrojRegularKarata: $('#brojRegularKarata').val(),
-                BrojVipKarata: $('#brojVipKarata').val(),
-                BrojFanpitKarata: $('#brojFanpitKarata').val(),
-                DatumVremeOdrzavanja: $('#datum').val(),
-                CenaRegularKarte: $('#cenaRegularKarte').val()
-            },
-            success: function () {
-                window.location.href = "index.html";
-                console.log("USPESNA POSLATI PODACI AJAXOM");
-            },
-            error: function (jqXHR) {
-                alert("ERROR");
-            }
-        });
+        $("p.poruka").remove();
+        if ($('#naziv').val().length < 4)
+            $('#naziv').after('<p class="poruka">Naziv manifestacije mora imati minimum 4 karaktera</p>');
+        else if ($('#brojMesta').val() < 1)
+            $('#brojMesta').after('<p class="poruka">Unesite broj mesta</p>');
+        else if ($('#brojRegularKarata').val() < 1)
+            $('#brojRegularKarata').after('<p class="poruka">Unesite broj regular karata</p>');
+        else if ($('#brojVipKarata').val() < 1)
+            $('#brojVipKarata').after('<p class="poruka">Unesite broj vip karata</p>');
+        else if ($('#brojFanpitKarata').val() < 1)
+            $('#brojFanpitKarata').after('<p class="poruka">Unesite broj fanpit karata</p>');
+        else if (!Date.parse($('#datumVremeOdrzavanja').val()))
+            $('#datumVremeOdrzavanja').after('<p class="poruka">Unesite datum odrzavanja</p>');
+        else if ($('#cenaRegularKarte').val() < 1)
+            $('#cenaRegularKarte').after('<p class="poruka">Unesite cenu regular karte</p>');
+        else {
+            $.ajax({
+                url: '/manifestacije',
+                method: 'PUT',
+                data: {
+                    Id: $(manif).attr("data-id"),
+                    Naziv: $('#naziv').val(),
+                    BrojMesta: $('#brojMesta').val(),
+                    BrojRegularKarata: $('#brojRegularKarata').val(),
+                    BrojVipKarata: $('#brojVipKarata').val(),
+                    BrojFanpitKarata: $('#brojFanpitKarata').val(),
+                    DatumVremeOdrzavanja: $('#datum').val(),
+                    CenaRegularKarte: $('#cenaRegularKarte').val()
+                },
+                success: function () {
+                    window.location.href = "index.html";
+                    console.log("USPESNA POSLATI PODACI AJAXOM");
+                },
+                error: function (jqXHR) {
+                    alert("ERROR");
+                }
+            });
+        }
+
+        
     });
 }

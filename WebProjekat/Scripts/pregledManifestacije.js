@@ -153,6 +153,7 @@
             },
             success: function () {
                 console.log("USPESNA POSLATI PODACI AJAXOM");
+                window.location.href = "index.html";
             },
             error: function (jqXHR) {
                 alert("ERROR");
@@ -245,6 +246,18 @@
                     var komentari = JSON.parse(data);
 
                     var ocenaManif = "";
+                    var komentar = "";
+
+                    if (komentar.length > 0) {
+                        komentar = '<thead>'
+                            + '<tr>'
+                            + '<th scope="col">Kupac</th>'
+                            + '<th scope="col">Komentar</th>'
+                            + '<th scope="col">Ocena</th>'
+                            + '</tr>'
+                            + '</thead>'
+                            + '<tbody>';
+                    }
 
                     for (var i = 0; i < komentari.length; i++) {
 
@@ -265,12 +278,12 @@
                                 tipManif = "5";
                         }
 
-                        var komentar = '<div class="jedanKomentar" border>'
-                            + "<span>" + komentari[i].KorisnickoIme + " | " + komentari[i].Tekst + " | " +  ocenaManif + "</span>"
-                            + "</div>";
-                        $('#prikazManif').append(komentar);
-
+                        komentar += '<tr>'
+                            + "<td>" + komentari[i].KorisnickoIme + "</td>" + "<td>Komentar: " + komentari[i].Tekst + "</td>" + "<td>Ocena: " + ocenaManif + "</td>"
+                            + "</tr>";
                     }
+                    komentar += '</tbody>';
+                    $('#komentariManifestacije').append(komentar);
                 }
             });
 

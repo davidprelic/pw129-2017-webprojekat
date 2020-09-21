@@ -45,7 +45,7 @@ namespace WebProjekat.Controllers
                 {
                     foreach (var lokac in bp.listaLokacija.Values)
                     {
-                        if (lokac.GeografskaDuzina == double.Parse(mdto.GeografskaDuzina) && lokac.GeografskaSirina == double.Parse(mdto.GeografskaSirina))
+                        if (lokac.GeografskaDuzina == double.Parse(mdto.GeografskaDuzina) && lokac.GeografskaSirina == double.Parse(mdto.GeografskaSirina) && !item.IsDeleted)
                             return BadRequest();
                     }
                 }
@@ -100,11 +100,11 @@ namespace WebProjekat.Controllers
 
             foreach(var item in bp.listaManifestacija.Values)
             {
-                if (item.Status == Enums.StatusManifestacije.AKTIVNO)
+                if (item.Status == Enums.StatusManifestacije.AKTIVNO && !item.IsDeleted)
                 {
                     foreach (var komentar in bp.listaKomentara.Values)
                     {
-                        if(komentar.ManifestacijaID == item.Id)
+                        if(komentar.ManifestacijaID == item.Id && !komentar.IsDeleted)
                         {
                             brojac++;
                             if(komentar.Ocena == Enums.Ocena.JEDAN)
@@ -211,6 +211,11 @@ namespace WebProjekat.Controllers
                 HttpContext.Current.Session["Korisnik"] = korisnikSesija;
             }
 
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             bp.listaManifestacija = (Dictionary<string, Manifestacija>)HttpContext.Current.Application["Manifestacije"];
             if (bp.listaManifestacija.ContainsKey(imdto.Id))
             {
@@ -261,7 +266,8 @@ namespace WebProjekat.Controllers
 
             foreach (string item in p.SveMojeManifestacije)
             {
-                pomLista.Add(bp.listaManifestacija[item]);
+                if(!bp.listaManifestacija[item].IsDeleted)
+                    pomLista.Add(bp.listaManifestacija[item]);
             }
             
             return Ok(pomLista);
@@ -328,6 +334,50 @@ namespace WebProjekat.Controllers
             }
 
             return result;
+        }
+
+        [HttpDelete]
+        [Route("obrisi-manifestaciju")]
+        public IHttpActionResult ObrisiManifestaciju(string id)
+        {
+            bp.listaManifestacija = (Dictionary<string, Manifestacija>)HttpContext.Current.Application["Manifestacije"];
+            bp.listaKorisnika = (Dictionary<string, Korisnik>)HttpContext.Current.Application["Korisnici"];
+            bp.listaKarata = (Dictionary<string, Karta>)HttpContext.Current.Application["Karte"];
+            bp.listaKomentara = (Dictionary<string, Komentar>)HttpContext.Current.Application["Komentari"];
+           
+
+            Korisnik korisnikSesija = (Korisnik)HttpContext.Current.Session["Korisnik"];
+            if (korisnikSesija == null)
+            {
+                korisnikSesija = new Korisnik();
+                HttpContext.Current.Session["Korisnik"] = korisnikSesija;
+            }
+
+            if (korisnikSesija.Uloga == Enums.Uloga.ADMINISTRATOR)
+            {
+                bp.listaManifestacija[id].IsDeleted = bool.Parse("True");
+
+                foreach (var item in bp.listaKarata.Values)
+                {
+                    if(item.ManifestacijaID == id)
+                        bp.listaKarata[item.Id].IsDeleted = bool.Parse("True");
+                }
+
+                bp.AzurirajKarte();
+
+                foreach (var item in bp.listaKomentara.Values)
+                {
+                    if(item.ManifestacijaID == id)
+                        bp.listaKomentara[item.Id].IsDeleted = bool.Parse("True");
+                }
+
+                bp.AzurirajKomentare();
+
+                bp.AzurirajManifestacije();
+                
+            }
+
+            return Ok();
         }
 
     }

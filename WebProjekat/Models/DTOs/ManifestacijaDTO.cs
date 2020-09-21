@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -7,13 +8,21 @@ namespace WebProjekat.Models.DTOs
 {
     public class ManifestacijaDTO
     {
+        [Required]
+        [StringLength(60, MinimumLength = 4)]
         public string Naziv { get; set; }
         public Enums.TipManifestacije Tip { get; set; }
+        [Required]
         public int BrojMesta { get; set; }
+        [Required]
         public int BrojRegularKarata { get; set; }
+        [Required]
         public int BrojVipKarata { get; set; }
+        [Required]
         public int BrojFanpitKarata { get; set; }
+        [Required]
         public DateTime DatumVremeOdrzavanja { get; set; }
+        [Required]
         public decimal CenaRegularKarte { get; set; }
         public Enums.StatusManifestacije Status { get; set; }
         public string GeografskaSirina { get; set; }

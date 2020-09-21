@@ -79,51 +79,70 @@
 
         var posterManif = `/Images/${$('input[type=file]').val().replace(/C:\\fakepath\\/i, '')}`;
 
-        $.ajax({
-            url: '/manifestacija',
-            method: 'POST',
-            data: {
-                Naziv: $('#naziv').val(),
-                Tip: manifTipSelected,
-                BrojMesta: $('#brojMesta').val(),
-                BrojRegularKarata: $('#brojRegularKarata').val(),
-                BrojVipKarata: $('#brojVipKarata').val(),
-                BrojFanpitKarata: $('#brojFanpitKarata').val(),
-                DatumVremeOdrzavanja: $('#datumVremeOdrzavanja').val(),
-                CenaRegularKarte: $('#cenaRegularKarte').val(),
-                Status: $('#status').val(),
-                PosterManifestacije: posterManif,
-                GeografskaSirina: geoSirina,
-                GeografskaDuzina: geoDuzina,
-                Ulica: ulica,
-                Grad: grad,
-                Drzava: drzava,
-                PostanskiBroj: postanskiBroj,
-                IsDeleted: $('isDeleted').val()
-            },
-            success: function () {
-                console.log("USPESNA POSLATI PODACI AJAXOM");
+        $("p.poruka").remove();
+        if ($('#naziv').val().length < 4)
+            $('#naziv').after('<p class="poruka">Naziv manifestacije mora imati minimum 4 karaktera</p>');
+        else if ($('#brojMesta').val() < 1)
+            $('#brojMesta').after('<p class="poruka">Unesite broj mesta</p>');
+        else if ($('#brojRegularKarata').val() < 1)
+            $('#brojRegularKarata').after('<p class="poruka">Unesite broj regular karata</p>');
+        else if ($('#brojVipKarata').val() < 1)
+            $('#brojVipKarata').after('<p class="poruka">Unesite broj vip karata</p>');
+        else if ($('#brojFanpitKarata').val() < 1)
+            $('#brojFanpitKarata').after('<p class="poruka">Unesite broj fanpit karata</p>');
+        else if (!Date.parse($('#datumVremeOdrzavanja').val()))
+            $('#datumVremeOdrzavanja').after('<p class="poruka">Unesite datum odrzavanja</p>');
+        else if ($('#cenaRegularKarte').val() < 1)
+            $('#cenaRegularKarte').after('<p class="poruka">Unesite cenu regular karte</p>');
+        else {
+            $.ajax({
+                url: '/manifestacija',
+                method: 'POST',
+                data: {
+                    Naziv: $('#naziv').val(),
+                    Tip: manifTipSelected,
+                    BrojMesta: $('#brojMesta').val(),
+                    BrojRegularKarata: $('#brojRegularKarata').val(),
+                    BrojVipKarata: $('#brojVipKarata').val(),
+                    BrojFanpitKarata: $('#brojFanpitKarata').val(),
+                    DatumVremeOdrzavanja: $('#datumVremeOdrzavanja').val(),
+                    CenaRegularKarte: $('#cenaRegularKarte').val(),
+                    Status: $('#status').val(),
+                    PosterManifestacije: posterManif,
+                    GeografskaSirina: geoSirina,
+                    GeografskaDuzina: geoDuzina,
+                    Ulica: ulica,
+                    Grad: grad,
+                    Drzava: drzava,
+                    PostanskiBroj: postanskiBroj,
+                    IsDeleted: $('isDeleted').val()
+                },
+                success: function () {
+                    console.log("USPESNA POSLATI PODACI AJAXOM");
 
-                var formData = new FormData();
-                var opmlFile = $('#posterManifestacije')[0];
-                formData.append("opmlFile", opmlFile.files[0]);
+                    var formData = new FormData();
+                    var opmlFile = $('#posterManifestacije')[0];
+                    formData.append("opmlFile", opmlFile.files[0]);
 
-                $.ajax({
-                    url: '/upload-slike',
-                    type: 'POST',
-                    data: formData,
-                    cache: false,
-                    contentType: false,
-                    processData: false
-                });
+                    $.ajax({
+                        url: '/upload-slike',
+                        type: 'POST',
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false
+                    });
 
-                window.location.href = "index.html";
-            },
-            error: function (jqXHR) {
-                alert("ERROR");
-            }
+                    window.location.href = "index.html";
+                },
+                error: function (jqXHR) {
+                    alert("ERROR");
+                }
 
-        });
+            });
+        }
+
+        
     });
 
     $('#regLogoutKartica').click(function () {

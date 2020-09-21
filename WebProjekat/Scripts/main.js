@@ -1,11 +1,12 @@
 ﻿$(document).ready(function () {
 
     $('.header').height($(window).height());
-
+    var uloga = "";
     $.ajax({
         url: '/sesija',
         method: 'GET',
         success: function (data) {
+            uloga = data;
             if (data === 'ADMINISTRATOR') {
                 var kartice = '<li class="nav-item"><a class="nav-link" href="korisnici.html"> Pregled korisnika</a></li>';
                 $('#kartice').after(kartice);
@@ -41,6 +42,17 @@
         }
     });
 
+    $('body').on('click', '.obrisiManif', function () {
+        console.log("PROVERA KLIKA OBRISI MANIFESTACIJU");
+        $.ajax({
+            url: `/obrisi-manifestaciju?id=${$(this).attr("data-id")}`,
+            method: 'DELETE',
+            success: function (data) {
+                window.location.href = "index.html";
+            }
+        });
+    });
+
     $.ajax({
         url: '/manifestacije',
         method: 'GET',
@@ -74,19 +86,23 @@
                         tipManif = "SPORT";
                 }
 
-                var eachManif = `<div class="col-sm-3 trenutnaManif" data-id="${manifestacije[i].Id}" onclick="prikaziManif(this)">`
+                var eachManif = `<div class="col-sm-3 trenutnaManif">`
                     + '<div class="card text-center border-success">'
                     + '<div class="card-header">' + tipManif + '</div>'
                     + '<div class="card-body">'
-                    + `<img class="card-img-top" src="${manifestacije[i].PosterManifestacije}">`
+                    + `<img class="card-img-top" src="${manifestacije[i].PosterManifestacije}" data-id="${manifestacije[i].Id}" onclick="prikaziManif(this)">`
                     + '<h5 class="card-title">' + manifestacije[i].Naziv + "</h5>"
                     + '<p class="card-text">' + datum.getDate() + '/' + mesec + '/' + datum.getFullYear() + "</p>"
                     + '<p class="card-text">' + manifestacije[i].MestoOdrzavanjaManif.Ulica + ", " + manifestacije[i].MestoOdrzavanjaManif.Grad + ", " + manifestacije[i].MestoOdrzavanjaManif.Drzava + "</p>";
                 if (manifestacije[i].ProsecnaOcenaManif)
                     eachManif += '<p class="card-text">Prosecna ocena: ' + manifestacije[i].ProsecnaOcenaManif + "</p>";
 
-                eachManif += '<p class="card-text">Cena karte: ' + manifestacije[i].CenaRegularKarte + " rsd" + "</p>"
-                                        + '</div>'
+                eachManif += '<p class="card-text">Cena karte: ' + manifestacije[i].CenaRegularKarte + " rsd" + "</p>";
+
+                if (uloga === "ADMINISTRATOR")
+                    eachManif += `<button type="button" class="obrisiManif btn btn-primary" data-id="${manifestacije[i].Id}">Obrisi manifestaciju</button>`;
+
+                        eachManif += '</div>'
                                     + '</div>'
                               + "</div>";
                 $('.card-deck').append(eachManif);
@@ -155,19 +171,23 @@
                             tipManif = "SPORT";
                     }
 
-                    var eachManif = `<div class="col-sm-3 trenutnaManif" data-id="${data[i].Id}" onclick="prikaziManif(this)">`
+                    var eachManif = `<div class="col-sm-3 trenutnaManif">`
                         + '<div class="card text-center border-success">'
                         + '<div class="card-header">' + tipManif + '</div>'
                         + '<div class="card-body">'
-                        + `<img class="card-img-top" src="${data[i].PosterManifestacije}">`
+                        + `<img class="card-img-top" src="${data[i].PosterManifestacije}" data-id="${data[i].Id}" onclick="prikaziManif(this)">`
                         + '<h5 class="card-title">' + data[i].Naziv + "</h5>"
                         + '<p class="card-text">' + datum.getDate() + '/' + mesec + '/' + datum.getFullYear() + "</p>"
                         + '<p class="card-text">' + data[i].MestoOdrzavanjaManif.Ulica + ", " + data[i].MestoOdrzavanjaManif.Grad + ", " + data[i].MestoOdrzavanjaManif.Drzava + "</p>";
                     if (data[i].ProsecnaOcenaManif)
                         eachManif += '<p class="card-text">Prosecna ocena: ' + data[i].ProsecnaOcenaManif + "</p>";
 
-                    eachManif += '<p class="card-text">Cena karte: ' + data[i].CenaRegularKarte + " rsd" + "</p>"
-                        + '</div>'
+                    eachManif += '<p class="card-text">Cena karte: ' + data[i].CenaRegularKarte + " rsd" + "</p>";
+
+                    if (uloga === "ADMINISTRATOR")
+                        eachManif += `<button type="button" class="obrisiManif btn btn-primary" data-id="${data[i].Id}">Obrisi manifestaciju</button>`;
+
+                    eachManif += '</div>'
                         + '</div>'
                         + "</div>";
                     $('.card-deck').append(eachManif);

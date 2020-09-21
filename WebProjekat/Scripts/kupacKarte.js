@@ -18,11 +18,25 @@
         }
     });
 
+
+    $('body').on('click', '#odustani', function () {
+        console.log("PROVERA KLIKA ODUSTANI");
+        $.ajax({
+            url: `/odustani-od-karte`,
+            method: 'GET',
+            data: {
+                Id: $(this).attr("data-id")
+            },
+            success: function (data) {
+                window.location.href = "index.html";
+            }
+        });
+    });
+
     $.ajax({
         url: '/karte',
         method: 'GET',
         success: function (data) {
-
             for (var i = 0; i < data.length; i++) {
                 var datum = new Date(data[i].DatumVremeManifestacije);
                 var mesec = datum.getMonth() + 1;
@@ -54,8 +68,8 @@
                 else
                     eachKarta += "<td>Odustanak</td>";
 
-                if (trenutniDatum < datum) {
-                    eachKarta += `<td><button type="button" id="odustani" class="btn btn-primary">Odustani</button></td>`;
+                if (trenutniDatum < datum && data[i].Status === 0) {
+                    eachKarta += `<td><button type="button" id="odustani" class="btn btn-primary" data-id="${data[i].Id}">Odustani</button></td>`;
                 }
                     eachKarta += "</tr>";
                 $('#tbodyKarteKupca').append(eachKarta);
@@ -123,8 +137,8 @@
                     else
                         eachKarta += "<td>Odustanak</td>";
 
-                    if (trenutniDatum < datum) {
-                        eachKarta += `<td><button type="button" id="odustani" class="btn btn-primary">Odustani</button></td>`;
+                    if (trenutniDatum < datum && data[i].Status === 0) {
+                        eachKarta += `<td><button type="button" id="odustani" class="btn btn-primary" data-id="${data[i].Id}">Odustani</button></td>`;
                     }
                     eachKarta += "</tr>";
                     $('#tbodyKarteKupca').append(eachKarta);

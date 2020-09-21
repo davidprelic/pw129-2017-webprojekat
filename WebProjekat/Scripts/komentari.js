@@ -1,11 +1,12 @@
 ﻿$(document).ready(function () {
 
     $('.header').height($(window).height());
-
+    var uloga = "";
     $.ajax({
         url: '/sesija',
         method: 'GET',
         success: function (data) {
+            uloga = data;
             if (data === 'ADMINISTRATOR') {
                 var kartice = '<li class="nav-item"><a class="nav-link" href="korisnici.html"> Pregled korisnika</a></li>';
                 $('#kartice').after(kartice);
@@ -74,6 +75,19 @@
     });
 
 
+    $('body').on('click', '#obrisiKomentar', function () {
+        console.log("PROVERA KLIKA OBRISI KOMENTAR");
+        console.log($(this).attr("data-id"));
+        $.ajax({
+            url: `/obrisi-komentar?id=${$(this).attr("data-id")}`,
+            method: 'DELETE',
+            success: function (data) {
+                window.location.href = "index.html";
+            }
+        });
+    });
+
+
     $.ajax({
         url: '/komentari',
         method: 'GET',
@@ -132,8 +146,12 @@
                         + "<td>" + komentari[i].NazivManif + "</td>"
                         + "<td>" + `<textarea disabled>${komentari[i].Tekst}</textarea>` + "</td>"
                         + "<td>" + ocenaManif + "</td>"
-                        + "<td>" + status + "</td>"
-                        + "</tr>";
+                        + "<td>" + status + "</td>";
+                    if (uloga == "ADMINISTRATOR") {
+                        eachrow += `<td><button type="button" id="obrisiKomentar" class="btn btn-primary" data-id="${komentari[i].Id}">Obrisi komentar</button></td>`;
+                    }
+
+                        eachrow += "</tr>";
                     $('#tbodySviKomentari').append(eachrow);
                 }
             }

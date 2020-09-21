@@ -26,6 +26,17 @@
         }
     });
 
+    $('body').on('click', '#obrisiKartu', function () {
+        console.log("PROVERA KLIKA OBRISI KARTU");
+        $.ajax({
+            url: `/obrisi-kartu?id=${$(this).attr("data-id")}`,
+            method: 'DELETE',
+            success: function (data) {
+                window.location.href = "index.html";
+            }
+        });
+    });
+
     $.ajax({
         url: '/sve-karte',
         method: 'GET',
@@ -58,6 +69,8 @@
                     eachKarta += "<td>Rezervisana</td>";
                 else
                     eachKarta += "<td>Odustanak</td>";
+
+                eachKarta += `<td><button type="button" id="obrisiKartu" class="btn btn-primary" data-id="${data[i].Id}">Obrisi kartu</button></td>`
 
                     eachKarta += "</tr>";
                 $('#tbodySveKarte').append(eachKarta);

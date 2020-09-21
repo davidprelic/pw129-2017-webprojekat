@@ -1,0 +1,4 @@
+2e8dcdcd-9c00-43d2-8c69-5d3da4cebb4e;5192bd16-10cd-4414-a674-b37ae72b294c;a0bb7a2d-4ae5-44e0-969c-d215bbe01df9;Proba komentar proba komentar;CETIRI;PRIHVACEN;False
+7ba02736-6e8f-4ea6-bc52-12b63cd5304a;5192bd16-10cd-4414-a674-b37ae72b294c;a0bb7a2d-4ae5-44e0-969c-d215bbe01df9;Proba komentar proba komentar;CETIRI;ODBIJEN;False
+ea4c7ba3-e30e-42ec-bb04-c8b2312d2af1;5192bd16-10cd-4414-a674-b37ae72b294c;a0bb7a2d-4ae5-44e0-969c-d215bbe01df9;test test test;TRI;PRIHVACEN;True
+000ed742-9a6c-4ab5-9fd3-df53fade9150;5192bd16-10cd-4414-a674-b37ae72b294c;a0bb7a2d-4ae5-44e0-969c-d215bbe01df9;Test test test;DVA;PRIHVACEN;False

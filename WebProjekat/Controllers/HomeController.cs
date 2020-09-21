@@ -204,11 +204,11 @@ namespace WebProjekat.Controllers
             int ocena;
             foreach (var item in lista)
             {
-                if (item.Status == Enums.StatusManifestacije.AKTIVNO)
+                if (item.Status == Enums.StatusManifestacije.AKTIVNO && !item.IsDeleted)
                 {
                     foreach (var komentar in bp.listaKomentara.Values)
                     {
-                        if (komentar.ManifestacijaID == item.Id)
+                        if (komentar.ManifestacijaID == item.Id && !komentar.IsDeleted)
                         {
                             brojac++;
                             if (komentar.Ocena == Enums.Ocena.JEDAN)

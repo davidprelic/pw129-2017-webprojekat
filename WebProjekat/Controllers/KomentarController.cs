@@ -67,7 +67,7 @@ namespace WebProjekat.Controllers
             {
                 foreach (var komentar in bp.listaKomentara.Values)
                 {
-                    if(komentar.Status != Enums.StatusKomentara.NACEKANJU)
+                    if(komentar.Status != Enums.StatusKomentara.NACEKANJU && !komentar.IsDeleted)
                         pomocnaLista.Add(new SviKomentariDTO(komentar.Id, bp.listaKorisnika[komentar.KupacID].KorisnickoIme, bp.listaManifestacija[komentar.ManifestacijaID].Naziv, komentar.Tekst, komentar.Ocena, komentar.Status));
                 }
             }
@@ -78,7 +78,7 @@ namespace WebProjekat.Controllers
                 {
                     foreach (var manif in p.SveMojeManifestacije)
                     {
-                        if(komentar.ManifestacijaID == manif)
+                        if(komentar.ManifestacijaID == manif && !komentar.IsDeleted)
                             pomocnaLista.Add(new SviKomentariDTO(komentar.Id, bp.listaKorisnika[komentar.KupacID].KorisnickoIme, bp.listaManifestacija[komentar.ManifestacijaID].Naziv, komentar.Tekst, komentar.Ocena, komentar.Status));
                     }
                 }
@@ -107,7 +107,7 @@ namespace WebProjekat.Controllers
 
             foreach (var komentar in bp.listaKomentara.Values)
             {
-                if(komentar.ManifestacijaID == manifestacijaId && komentar.Status == Enums.StatusKomentara.PRIHVACEN)
+                if(komentar.ManifestacijaID == manifestacijaId && komentar.Status == Enums.StatusKomentara.PRIHVACEN && !komentar.IsDeleted)
                 {
                     pomocnaLista.Add(new SviKomentariDTO(komentar.Id, bp.listaKorisnika[komentar.KupacID].KorisnickoIme, bp.listaManifestacija[komentar.ManifestacijaID].Naziv, komentar.Tekst, komentar.Ocena, komentar.Status));
                 }
@@ -137,6 +137,31 @@ namespace WebProjekat.Controllers
 
             bp.listaKomentara[id].Status = Enums.StatusKomentara.ODBIJEN;
             bp.AzurirajKomentare();
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("obrisi-komentar")]
+        public IHttpActionResult ObrisiKomentar(string id)
+        {
+            bp.listaManifestacija = (Dictionary<string, Manifestacija>)HttpContext.Current.Application["Manifestacije"];
+            bp.listaKorisnika = (Dictionary<string, Korisnik>)HttpContext.Current.Application["Korisnici"];
+            bp.listaKarata = (Dictionary<string, Karta>)HttpContext.Current.Application["Karte"];
+            bp.listaKomentara = (Dictionary<string, Komentar>)HttpContext.Current.Application["Komentari"];
+
+            Korisnik korisnikSesija = (Korisnik)HttpContext.Current.Session["Korisnik"];
+            if (korisnikSesija == null)
+            {
+                korisnikSesija = new Korisnik();
+                HttpContext.Current.Session["Korisnik"] = korisnikSesija;
+            }
+
+            if (korisnikSesija.Uloga == Enums.Uloga.ADMINISTRATOR)
+            {
+                bp.listaKomentara[id].IsDeleted = bool.Parse("True");
+                bp.AzurirajKomentare();
+            }
 
             return Ok();
         }

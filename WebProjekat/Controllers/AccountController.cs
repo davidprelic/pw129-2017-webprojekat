@@ -43,6 +43,9 @@ namespace WebProjekat.Controllers
                     return BadRequest();
                 }
 
+                if (k.IsDeleted)
+                    return BadRequest();
+
                 korisnikSesija = bp.listaKorisnika[k.Id];
                 HttpContext.Current.Session["Korisnik"] = korisnikSesija;
 

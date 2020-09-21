@@ -1,6 +1,7 @@
 dwedwsda;admin1;admin123;David;Prelic;MUSKI;14/08/1998;ADMINISTRATOR;False
-kdlasdrp;admin2;admin234;Maja;Majic;ZENSKI;26/10/1996;ADMINISTRATOR;False
+kdlasdrp;admin2;admin234;Jasna;Jasnic;ZENSKI;26/10/1996;ADMINISTRATOR;False
 f2196825-b7e2-4722-b552-23370dc32a66;prodavac1;prodavac123;Marko;Markovic;MUSKI;12/07/1985;PRODAVAC;|52234385-b85c-4217-8d1d-d6894e8fd1e3,a0bb7a2d-4ae5-44e0-969c-d215bbe01df9,518cdf33-c220-4bc7-a4b0-b20fc69a23e3,be6fdf0a-342c-4399-b468-d7998accd428|;False
 a09e9e5b-2a77-47d7-8f28-b1a5726c2e5f;prodavac2;prodavac234;Jovana;Jovanic;ZENSKI;08/01/1992;PRODAVAC;|15b76099-b5cf-4a6b-a8c4-d500c17f0ab1,d2a3275b-0a17-4920-9f8a-b11bf6960a91,fbf12fe6-0d1c-4c74-8752-ec322c3da4ab|;False
-5192bd16-10cd-4414-a674-b37ae72b294c;kupac1;kupac123;Ana;Anic;ZENSKI;23/12/1997;KUPAC;|cb85775c-e6ff-47b1-98b4-15e6dc504690,9f86adf6-d6f4-4fe1-98c5-d85b95babf0f,8da2e094-9ae6-48eb-b6ff-4e33d51804cf,e10d13bf-3046-48c3-a363-4c428f2442a4,f2b58272-b302-4f05-a734-11c66ecb02ea|;2699.9;BRONZANI;False
-fd384b4b-1567-4bc8-bd84-a2a71b9c4b73;kupac2;kupac234;Aleksa;Aleksic;MUSKI;19/05/1993;KUPAC;||;0;BRONZANI;False
+5192bd16-10cd-4414-a674-b37ae72b294c;kupac1;kupac123;Ana;Anic;ZENSKI;23/12/1997;KUPAC;|cb85775c-e6ff-47b1-98b4-15e6dc504690,9f86adf6-d6f4-4fe1-98c5-d85b95babf0f,8da2e094-9ae6-48eb-b6ff-4e33d51804cf,e10d13bf-3046-48c3-a363-4c428f2442a4,f2b58272-b302-4f05-a734-11c66ecb02ea|;425.6;BRONZANI;False
+fd384b4b-1567-4bc8-bd84-a2a71b9c4b73;kupac2;kupac234;Aleksa;Aleksic;MUSKI;19/05/1993;KUPAC;|e18a7c58-6981-40c0-9b5e-13c9f20cf4ba,4c592d42-3081-4c80-91fb-35fab9518cc3|;7022.4;BRONZANI;False
+f787ce4d-981b-4509-8664-5c206fdf88d6;prodavacBrisanje;brisanje123;Stanko;Stankovic;MUSKI;09/09/2020;PRODAVAC;||;True

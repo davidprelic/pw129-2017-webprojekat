@@ -93,11 +93,24 @@
                             + "<td>" + (data[i].Pol ? 'Zensko' : 'Musko') + "</td>"
                             + "<td>" + datum.getDate() + '/' + mesec + '/' + datum.getFullYear() + "</td>"
                             + "<td>" + '<button class="prikazDugme">Blokiraj</button>' + "</td>"
+                            + `<td><button type="button" id="obrisiKorisnika" class="btn btn-primary" data-id="${data[i].Id}">Obrisi (blokiraj) korisnika</button></td>`
                             + "</tr>";
                         $('#tbodyProdavac').append(eachrow);
                     }
                     //Kupac
                     else {
+                        var tipKor = "";
+                        switch (data[i].TipKorisn.ImeTipa) {
+                            case 0:
+                                tipKor = "ZLATNI";
+                                break;
+                            case 1:
+                                tipKor = "SREBRNI";
+                                break;
+                            case 2:
+                                tipKor = "BRONZANI";
+                        }
+
                         var datum = new Date(data[i].DatumRodjenja);
                         var mesec = datum.getMonth() + 1;
                         var eachrow = "<tr>"
@@ -107,6 +120,9 @@
                             + "<td>" + data[i].Prezime + "</td>"
                             + "<td>" + (data[i].Pol ? 'Zensko' : 'Musko') + "</td>"
                             + "<td>" + datum.getDate() + '/' + mesec + '/' + datum.getFullYear() + "</td>"
+                            + "<td>" + data[i].BrojSakupljenihBodova + "</td>"
+                            + "<td>" + tipKor + "</td>"
+                            + `<td><button type="button" id="obrisiKorisnika" class="btn btn-primary" data-id="${data[i].Id}">Obrisi (blokiraj) korisnika</button></td>`
                             + "<td>" + '<button class="prikazDugme">Blokiraj</button>' + "</td>"
                             + "</tr>";
                         $('#tbodyKupac').append(eachrow);
@@ -119,7 +135,16 @@
         });
     });
 
-
+    $('body').on('click', '#obrisiKorisnika', function () {
+        console.log("PROVERA KLIKA OBRISI KORISNIKA");
+        $.ajax({
+            url: `/obrisi-korisnika?id=${$(this).attr("data-id")}`,
+            method: 'DELETE',
+            success: function (data) {
+                window.location.href = "index.html";
+            }
+        });
+    });
 
     $.ajax({
         url: '/korisnici',
@@ -153,28 +178,51 @@
                         + "<td>" + korisnici[i].Prezime + "</td>"
                         + "<td>" + (korisnici[i].Pol ? 'Zensko' : 'Musko') + "</td>"
                         + "<td>" + datum.getDate() + '/' + mesec + '/' + datum.getFullYear() + "</td>"
+                        + `<td><button type="button" id="obrisiKorisnika" class="btn btn-primary" data-id="${korisnici[i].Id}">Obrisi (blokiraj) korisnika</button></td>`
                         + "<td>" + '<button class="prikazDugme">Blokiraj</button>' + "</td>"
                         + "</tr>";
                     $('#tbodyProdavac').append(eachrow);
                 }
-                //Kupac
-                else {
-                    var datum = new Date(korisnici[i].DatumRodjenja);
-                    var mesec = datum.getMonth() + 1;
-                    var eachrow = "<tr>"
-                        + "<td>" + korisnici[i].KorisnickoIme + "</td>"
-                        + "<td>" + korisnici[i].Lozinka + "</td>"
-                        + "<td>" + korisnici[i].Ime + "</td>"
-                        + "<td>" + korisnici[i].Prezime + "</td>"
-                        + "<td>" + (korisnici[i].Pol ? 'Zensko' : 'Musko') + "</td>"
-                        + "<td>" + datum.getDate() + '/' + mesec + '/' + datum.getFullYear() + "</td>"
-                        + "<td>" + '<button class="prikazDugme">Blokiraj</button>' + "</td>"
-                        + "</tr>";
-                    $('#tbodyKupac').append(eachrow);
-                }
             }
+
+                $.ajax({
+                    url: '/korisnici-kupci',
+                    method: 'GET',
+                    success: function (data) {
+                        var kupci = JSON.parse(data);
+                        var tipKor = "";
+
+                        for (var i = 0; i < kupci.length; i++) {
+
+                            switch (kupci[i].TipKorisn.ImeTipa) {
+                                case 0:
+                                    tipKor = "ZLATNI";
+                                    break;
+                                case 1:
+                                    tipKor = "SREBRNI";
+                                    break;
+                                case 2:
+                                    tipKor = "BRONZANI";
+                            }
+
+                                var datum = new Date(kupci[i].DatumRodjenja);
+                                var mesec = datum.getMonth() + 1;
+                                var eachrow = "<tr>"
+                                    + "<td>" + kupci[i].KorisnickoIme + "</td>"
+                                    + "<td>" + kupci[i].Lozinka + "</td>"
+                                    + "<td>" + kupci[i].Ime + "</td>"
+                                    + "<td>" + kupci[i].Prezime + "</td>"
+                                    + "<td>" + (kupci[i].Pol ? 'Zensko' : 'Musko') + "</td>"
+                                    + "<td>" + datum.getDate() + '/' + mesec + '/' + datum.getFullYear() + "</td>"
+                                    + "<td>" + kupci[i].BrojSakupljenihBodova + "</td>"
+                                    + "<td>" + tipKor + "</td>"
+                                    + `<td><button type="button" id="obrisiKorisnika" class="btn btn-primary" data-id="${kupci[i].Id}">Obrisi (blokiraj) korisnika</button></td>`
+                                    + "<td>" + '<button class="prikazDugme">Blokiraj</button>' + "</td>"
+                                    + "</tr>";
+                                $('#tbodyKupac').append(eachrow);
+                        }
+                    }
+                });
         }
     });
-
-
 });
